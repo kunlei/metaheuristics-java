@@ -289,12 +289,12 @@ window.Quarto = {
 <p>The goal is to find an assignment of tasks to agents that minimizes the total cost or maximizes the total profit, while ensuring that each task is assigned to one or more agents, and the total resource requirement of each agent does not exceed its capacity.</p>
 <p>Mathematically, the GAP can be formulated as an integer linear programming problem. One possible formulation is as follows:</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 \text{min.} &amp;\quad \sum_{i=1}^{n} \sum_{j=1}^{m} c_{ij} x_{ij} \label{gap-obj}\\
 \text{s.t.} &amp;\quad \sum_{j=1}^{m} x_{ij} = 1, \ \forall i = 1, 2, ..., n \label{gap-cons1}\\
 &amp;\quad \sum_{i=1}^{n} r_{ij} x_{ij} \leq b_j, \  \forall j = 1, 2, ..., m \label{gap-cons2}\\
 &amp;\quad x_{ij} \in \{0, 1\}, \ \forall i = 1, 2, ..., n, j = 1, 2, ..., m \label{gap-cons3}
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>where <span class="math inline">\(x_{ij}\)</span> is a binary decision variable that equals 1 if task <span class="math inline">\(i\)</span> is assigned to agent <span class="math inline">\(j\)</span>, and 0 otherwise.</p>
 <p>The first set of constraints ensures that each task is assigned to exactly one agent, and the second set of constraints ensures that the total resource requirement of each agent does not exceed its capacity.</p>
