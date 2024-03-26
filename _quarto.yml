@@ -1,0 +1,35 @@
+project:
+  type: book
+
+book:
+  title: "Hands-On Metaheuristics in Java"
+  author: "Kunlei Lian"
+  date: "08/09/2023"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - part: "Algorithm Workflow"
+      chapters: 
+        - workflow-ga.ipynb
+        - workflow-sa.ipynb
+        - workflow-ts.ipynb
+    - part: "Generalized Assignment Problem"
+      chapters: 
+        - gap-ga.ipynb
+        - gap-sa.ipynb
+        - gap-ts.ipynb
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: journal
+    include-in-header: mathjax.html
+    html-math-method: mathjax
+  pdf:
+    documentclass: scrreprt
+
+
+
