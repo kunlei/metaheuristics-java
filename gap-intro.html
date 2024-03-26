@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Hands-On Metaheuristics in Java - 8&nbsp; Tabu Search for Generalized Assignment Problem</title>
+<title>Hands-On Metaheuristics in Java - 5&nbsp; Generalized Assignment Problem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
-<link href="./gap-sa.html" rel="prev">
+<link href="./gap-ga.html" rel="next">
+<link href="./workflow-ts.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -84,6 +84,35 @@ ul.task-list li input[type="checkbox"] {
     };
 </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -96,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./gap-intro.html">Generalized Assignment Problem</a></li><li class="breadcrumb-item"><a href="./gap-ts.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tabu Search for Generalized Assignment Problem</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./gap-intro.html">Generalized Assignment Problem</a></li><li class="breadcrumb-item"><a href="./gap-intro.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized Assignment Problem</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -173,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gap-intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./gap-intro.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized Assignment Problem</span></span></a>
   </div>
 </li>
@@ -191,7 +220,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./gap-ts.html" class="sidebar-item-text sidebar-link active">
+  <a href="./gap-ts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tabu Search for Generalized Assignment Problem</span></span></a>
   </div>
 </li>
@@ -215,14 +244,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link active" data-scroll-target="#problem-statement"><span class="header-section-number">5.1</span> Problem Statement</a></li>
+  <li><a href="#benchmarking-problems" id="toc-benchmarking-problems" class="nav-link" data-scroll-target="#benchmarking-problems"><span class="header-section-number">5.2</span> Benchmarking Problems</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./gap-intro.html">Generalized Assignment Problem</a></li><li class="breadcrumb-item"><a href="./gap-ts.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tabu Search for Generalized Assignment Problem</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./gap-intro.html">Generalized Assignment Problem</a></li><li class="breadcrumb-item"><a href="./gap-intro.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized Assignment Problem</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tabu Search for Generalized Assignment Problem</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized Assignment Problem</span></h1>
 </div>
 
 
@@ -239,8 +275,36 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="problem-statement" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="problem-statement"><span class="header-section-number">5.1</span> Problem Statement</h2>
+<p>Formally, the Generalized Assignment Problem can be defined as follows:</p>
+<p>Given:</p>
+<ul>
+<li>A set of tasks, <span class="math inline">\(T = \{1, 2, ..., n\}\)</span></li>
+<li>A set of agents, <span class="math inline">\(A = \{1, 2, ..., m\}\)</span></li>
+<li>For each task <span class="math inline">\(i\)</span> and agent <span class="math inline">\(j\)</span>, a cost or profit <span class="math inline">\(c_{ij}\)</span> associated with assigning task <span class="math inline">\(i\)</span> to agent <span class="math inline">\(j\)</span></li>
+<li>For each task <span class="math inline">\(i\)</span> and agent <span class="math inline">\(j\)</span>, a resource requirement <span class="math inline">\(r_{ij}\)</span> specifying the amount of resource needed from agent <span class="math inline">\(j\)</span> to complete task <span class="math inline">\(i\)</span></li>
+<li>For each agent <span class="math inline">\(j\)</span>, a capacity <span class="math inline">\(b_j\)</span> specifying the maximum amount of resource that agent <span class="math inline">\(j\)</span> can contribute</li>
+</ul>
+<p>The goal is to find an assignment of tasks to agents that minimizes the total cost or maximizes the total profit, while ensuring that each task is assigned to one or more agents, and the total resource requirement of each agent does not exceed its capacity.</p>
+<p>Mathematically, the GAP can be formulated as an integer linear programming problem. One possible formulation is as follows:</p>
+<p><span class="math display">\[
+\begin{align}
+\text{min.} &amp;\quad \sum_{i=1}^{n} \sum_{j=1}^{m} c_{ij} x_{ij} \label{gap-obj}\\
+\text{s.t.} &amp;\quad \sum_{j=1}^{m} x_{ij} = 1, \ \forall i = 1, 2, ..., n \label{gap-cons1}\\
+&amp;\quad \sum_{i=1}^{n} r_{ij} x_{ij} \leq b_j, \  \forall j = 1, 2, ..., m \label{gap-cons2}\\
+&amp;\quad x_{ij} \in \{0, 1\}, \ \forall i = 1, 2, ..., n, j = 1, 2, ..., m \label{gap-cons3}
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(x_{ij}\)</span> is a binary decision variable that equals 1 if task <span class="math inline">\(i\)</span> is assigned to agent <span class="math inline">\(j\)</span>, and 0 otherwise.</p>
+<p>The first set of constraints ensures that each task is assigned to exactly one agent, and the second set of constraints ensures that the total resource requirement of each agent does not exceed its capacity.</p>
+<p>Solving the GAP can be computationally challenging, especially for large instances, as it is a generalization of the classic assignment problem, which is known to be polynomial-time solvable. Various algorithms and heuristics, such as branch and bound, dynamic programming, and approximation algorithms, can be employed to find feasible or optimal solutions to the GAP.</p>
+</section>
+<section id="benchmarking-problems" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="benchmarking-problems"><span class="header-section-number">5.2</span> Benchmarking Problems</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -632,13 +696,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./gap-sa.html" class="pagination-link" aria-label="Simulated Annealing for Generalized Assignment Problem">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Simulated Annealing for Generalized Assignment Problem</span></span>
+      <a href="./workflow-ts.html" class="pagination-link" aria-label="Tabu Search Workflow">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Tabu Search Workflow</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link" aria-label="Summary">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./gap-ga.html" class="pagination-link" aria-label="Genetic Algorithm for Generalized Assignment Problem">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Genetic Algorithm for Generalized Assignment Problem</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

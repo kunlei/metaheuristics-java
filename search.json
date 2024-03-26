@@ -4,39 +4,52 @@
     "href": "index.html",
     "title": "Hands-On Metaheuristics in Java",
     "section": "",
-    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.",
+    "text": "Preface",
     "crumbs": [
       "Preface"
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "1  Introduction",
+    "objectID": "gap-intro.html",
+    "href": "gap-intro.html",
+    "title": "5  Generalized Assignment Problem",
     "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "5.1 Problem Statement\nFormally, the Generalized Assignment Problem can be defined as follows:\nGiven:\nThe goal is to find an assignment of tasks to agents that minimizes the total cost or maximizes the total profit, while ensuring that each task is assigned to one or more agents, and the total resource requirement of each agent does not exceed its capacity.\nMathematically, the GAP can be formulated as an integer linear programming problem. One possible formulation is as follows:\n\\[\n\\begin{align}\n\\text{min.} &\\quad \\sum_{i=1}^{n} \\sum_{j=1}^{m} c_{ij} x_{ij} \\label{gap-obj}\\\\\n\\text{s.t.} &\\quad \\sum_{j=1}^{m} x_{ij} = 1, \\ \\forall i = 1, 2, ..., n \\label{gap-cons1}\\\\\n&\\quad \\sum_{i=1}^{n} r_{ij} x_{ij} \\leq b_j, \\  \\forall j = 1, 2, ..., m \\label{gap-cons2}\\\\\n&\\quad x_{ij} \\in \\{0, 1\\}, \\ \\forall i = 1, 2, ..., n, j = 1, 2, ..., m \\label{gap-cons3}\n\\end{align}\n\\]\nwhere \\(x_{ij}\\) is a binary decision variable that equals 1 if task \\(i\\) is assigned to agent \\(j\\), and 0 otherwise.\nThe first set of constraints ensures that each task is assigned to exactly one agent, and the second set of constraints ensures that the total resource requirement of each agent does not exceed its capacity.\nSolving the GAP can be computationally challenging, especially for large instances, as it is a generalization of the classic assignment problem, which is known to be polynomial-time solvable. Various algorithms and heuristics, such as branch and bound, dynamic programming, and approximation algorithms, can be employed to find feasible or optimal solutions to the GAP.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+      "Generalized Assignment Problem",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Generalized Assignment Problem</span>"
+    ]
+  },
+  {
+    "objectID": "gap-intro.html#problem-statement",
+    "href": "gap-intro.html#problem-statement",
+    "title": "5  Generalized Assignment Problem",
+    "section": "",
+    "text": "A set of tasks, \\(T = \\{1, 2, ..., n\\}\\)\nA set of agents, \\(A = \\{1, 2, ..., m\\}\\)\nFor each task \\(i\\) and agent \\(j\\), a cost or profit \\(c_{ij}\\) associated with assigning task \\(i\\) to agent \\(j\\)\nFor each task \\(i\\) and agent \\(j\\), a resource requirement \\(r_{ij}\\) specifying the amount of resource needed from agent \\(j\\) to complete task \\(i\\)\nFor each agent \\(j\\), a capacity \\(b_j\\) specifying the maximum amount of resource that agent \\(j\\) can contribute",
+    "crumbs": [
+      "Generalized Assignment Problem",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Generalized Assignment Problem</span>"
+    ]
+  },
+  {
+    "objectID": "gap-intro.html#benchmarking-problems",
+    "href": "gap-intro.html#benchmarking-problems",
+    "title": "5  Generalized Assignment Problem",
+    "section": "5.2 Benchmarking Problems",
+    "text": "5.2 Benchmarking Problems",
+    "crumbs": [
+      "Generalized Assignment Problem",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Generalized Assignment Problem</span>"
     ]
   },
   {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "8  Summary",
+    "title": "9  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Summary</span>"
-    ]
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
-    "crumbs": [
-      "References"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Summary</span>"
     ]
   }
 ]
