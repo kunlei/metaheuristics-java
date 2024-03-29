@@ -83,6 +83,9 @@ ul.task-list li input[type="checkbox"] {
         }
     };
 </script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -165,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Generalized Assignment Problem</span></a>
+ <span class="menu-text">Generalized Assignment Problem (GAP)</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -180,19 +183,19 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./gap-ga.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Genetic Algorithm for Generalized Assignment Problem</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Genetic Algorithm for GAP</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./gap-sa.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Simulated Annealing for Generalized Assignment Problem</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Simulated Annealing for GAP</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./gap-ts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tabu Search for Generalized Assignment Problem</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tabu Search for GAP</span></span></a>
   </div>
 </li>
       </ul>
@@ -215,7 +218,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#algorithm-workflow-and-key-steps" id="toc-algorithm-workflow-and-key-steps" class="nav-link active" data-scroll-target="#algorithm-workflow-and-key-steps"><span class="header-section-number">4.1</span> Algorithm Workflow and Key Steps</a></li>
+  <li><a href="#key-considerations" id="toc-key-considerations" class="nav-link" data-scroll-target="#key-considerations"><span class="header-section-number">4.2</span> Key Considerations</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -239,8 +249,104 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>This chapter presents the workflow of Tabu Search algorithms, explaining their core steps and discussing key considerations when applying them to solve real-world optimization problems.</p>
+<section id="algorithm-workflow-and-key-steps" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="algorithm-workflow-and-key-steps"><span class="header-section-number">4.1</span> Algorithm Workflow and Key Steps</h2>
+<p>Tabu Search is a metaheuristic algorithm used for solving combinatorial optimization problems. It was proposed by Fred Glover in 1986. The primary idea behind Tabu Search is to iteratively explore the solution space in search of the optimal or near-optimal solution by intelligently navigating through the space of feasible solutions.</p>
+<p>Here’s a high-level explanation of how the Tabu Search algorithm works:</p>
+<ul>
+<li>Initialization:
+<ul>
+<li>Start with an initial solution, which can be generated randomly or through some heuristic method.</li>
+<li>Initialize a Tabu list to keep track of previously visited solutions.</li>
+</ul></li>
+<li>Generating Neighboring Solutions:
+<ul>
+<li>Generate neighboring solutions by making small modifications to the current solution. These modifications could involve swapping, inserting, deleting, or otherwise altering elements of the current solution.</li>
+<li>Neighboring solutions are usually generated based on some predefined neighborhood structure specific to the problem being solved.</li>
+</ul></li>
+<li>Evaluating Neighboring Solutions:
+<ul>
+<li>Evaluate each neighboring solution using an objective function that measures the quality of the solution.</li>
+<li>The objective function reflects the optimization criteria of the problem, such as minimizing cost, maximizing profit, etc.</li>
+</ul></li>
+<li>Tabu Criteria:
+<ul>
+<li>Introduce Tabu criteria to determine which neighboring solutions are permissible for exploration.</li>
+<li>The Tabu list contains information about recent moves or solutions that are prohibited from being selected in the current iteration. This prevents the algorithm from revisiting solutions that have already been explored or to avoid getting stuck in local optima.</li>
+</ul></li>
+<li>Aspiration Criteria:
+<ul>
+<li>In some cases, solutions in the Tabu list may be revisited if they lead to a significant improvement over the current best solution. This is governed by aspiration criteria, which allow certain Tabu moves under specific circumstances.</li>
+</ul></li>
+<li>Updating Tabu List:
+<ul>
+<li>Update the Tabu list to reflect the recent moves or solutions that have been explored. This ensures that the algorithm avoids cycling through the same solutions repeatedly.</li>
+</ul></li>
+<li>Selecting Next Solution:
+<ul>
+<li>Choose the next solution to explore based on a combination of factors, including the quality of the solution, Tabu status, aspiration criteria, and possibly randomization to encourage exploration.</li>
+</ul></li>
+<li>Termination Condition:
+<ul>
+<li>Repeat the above steps iteratively until a termination condition is met. This condition could be a maximum number of iterations, reaching a predefined solution quality threshold, or running out of computational resources.</li>
+</ul></li>
+<li>Output:
+<ul>
+<li>Return the best solution found during the search process.</li>
+</ul></li>
+</ul>
+<p>Tabu Search is known for its ability to efficiently explore complex solution spaces, often outperforming other traditional optimization techniques. It’s widely used in various domains, including operations research, scheduling, logistics, and engineering design, among others.</p>
+<p><a href="#fig-benders-flowchart" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> shows the workflow of Tabu Search. After creating and evaluating the initial solution, Tabu search requires an iterative process of neighborhood solution generation, tabu/aspiration criteria checking and next solution selection to approximate the optimal solutions.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-benders-flowchart" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-benders-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-benders-flowchart">graph TD;
+    A[Initialization] --&gt; B[Generate Initial Solution];
+    B --&gt; C[Evaluate Solution];
+    C --&gt; D[Generate Neighboring Solutions];
+    D --&gt; E[Evaluate Neighboring Solutions];
+    E --&gt; F[Tabu Criteria];
+    F --&gt; G[Aspiration Criteria];
+    G --&gt; H[Select Next Solution];
+    H --&gt; I[Termination Condition];
+    I --&gt; J[Output];
+    J --&gt; D;
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-benders-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Tabu search algorithm workflow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="key-considerations" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="key-considerations"><span class="header-section-number">4.2</span> Key Considerations</h2>
+<p>When implementing the Tabu Search algorithm to solve optimization problems, there are several important aspects to consider to ensure its effectiveness and efficiency:</p>
+<ul>
+<li><p>Problem Representation: Choose an appropriate representation of solutions for the optimization problem at hand. The representation should allow easy manipulation and evaluation of solutions.</p></li>
+<li><p>Objective Function: Define a clear and appropriate objective function that quantifies the quality of solutions based on the problem requirements. This function guides the search for optimal or near-optimal solutions.</p></li>
+<li><p>Neighborhood Structure: Design a neighborhood structure that defines how neighboring solutions are generated from the current solution. This structure greatly influences the search process and should allow for efficient exploration of the solution space.</p></li>
+<li><p>Tabu List Management: Implement an efficient mechanism to manage the Tabu list, which keeps track of recent moves or solutions that are prohibited from being revisited. Consider factors such as Tabu tenure (how long a move remains prohibited), size of the Tabu list, and strategies for updating and clearing the list.</p></li>
+<li><p>Aspiration Criteria: Define aspiration criteria to determine when to override Tabu restrictions based on certain conditions, such as significant improvements in solution quality.</p></li>
+<li><p>Diversification Strategies: Incorporate diversification strategies to ensure exploration of diverse regions of the solution space. This helps prevent the algorithm from getting stuck in local optima.</p></li>
+<li><p>Intensification Strategies: Implement intensification strategies to focus the search on promising regions of the solution space, especially as the algorithm progresses. This may involve prioritizing certain types of moves or solutions.</p></li>
+<li><p>Termination Criteria: Define appropriate termination criteria to determine when to stop the search process. This could be based on reaching a maximum number of iterations, a specified solution quality threshold, or other factors.</p></li>
+<li><p>Parameter Tuning: Experiment with different parameter settings, such as Tabu tenure, neighborhood size, and aspiration criteria thresholds, to find the most effective configurations for the specific problem being solved.</p></li>
+<li><p>Efficient Data Structures and Algorithms: Use efficient data structures and algorithms for solution representation, neighborhood generation, and Tabu list management to optimize the computational performance of the algorithm.</p></li>
+<li><p>Validation and Testing: Validate the implementation by testing it on a variety of problem instances with known optimal solutions, if available. This helps verify the correctness and effectiveness of the algorithm.</p></li>
+</ul>
+<p>By paying attention to these aspects when implementing the Tabu Search algorithm, we can enhance its performance and increase the likelihood of finding high-quality solutions to optimization problems.</p>
+<p>In the remaining chapters of this book, we will apply Tabu Search to solve various optimization problems to demonstrate some of aforementioned points.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
