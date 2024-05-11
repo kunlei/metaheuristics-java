@@ -1,4 +1,13 @@
 # Preface {.unnumbered}
 
+Metaheuristics, despite the skepticism they sometimes draw from the academic community [see @sorensen_metaheuristicsmetaphor_2015], have proven their value across various industrial sectors by addressing complex optimization challenges. The pragmatic nature of these algorithms makes them especially appealing in real-world scenarios where theoretical purity must often yield to practical efficacy.
 
+This book is designed for practitioners, students, and anyone curious about metaheuristics, providing a hands-on introduction to these algorithms using Java. Rather than focusing on the optimal or most sophisticated implementation of each algorithm, this book opts for straightforward, sometimes naive, implementations. The primary goal is to illustrate how these algorithms function and how they can be applied, making this a highly accessible resource for readers who are new to the field or looking to understand the basic mechanics of these powerful tools.
 
+Each chapter dives into a different metaheuristic algorithm, such as Genetic Algorithms, Simulated Annealing, and Tabu Search. By implementing these in Java—a language renowned for its versatility and widespread use—we demonstrate the core concepts and workflows of these algorithms in a clear and approachable manner. Through simple code examples, readers will see how metaheuristics can be employed to tackle optimization problems in logistics, scheduling, network design, and beyond.
+
+The emphasis of this book is on learning by doing. By providing simple implementations, we enable readers to grasp the essential ideas and encourage them to experiment and adapt these algorithms to their specific needs. This approach demystifies the sometimes daunting aspect of metaheuristics and showcases their practical utility without getting bogged down in complex coding techniques or advanced theoretical discussions.
+
+By the conclusion of this book, you will have a solid understanding of various metaheuristic algorithms and be prepared to apply them to real-world problems. Whether your interest lies in enhancing your academic knowledge, improving your professional toolkit, or simply exploring new methods for problem-solving, this book will serve as a valuable starting point for working with metaheuristics in a meaningful and impactful way.
+
+Let’s embark on this journey of discovery together, learning how straightforward implementations of metaheuristics can offer powerful solutions to the complex challenges faced in diverse industries today.

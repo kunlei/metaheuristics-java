@@ -13,7 +13,7 @@ book:
         - workflow-ga.ipynb
         - workflow-sa.ipynb
         - workflow-ts.ipynb
-    - part: "Generalized Assignment Problem"
+    - part: "Generalized Assignment Problem (GAP)"
       chapters: 
         - gap-intro.ipynb
         - gap-ga.ipynb

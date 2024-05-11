@@ -1,4 +1,37 @@
 # Introduction
 
+The literature is filled with a wide variety of metaheuristic algorithms, many of which draw inspiration from diverse animal behaviors, and new ones are continually being proposed. Throughout this book, we will focus on some of the most classic metaheuristics.
+
+In the first section, we outline the workflow of each algorithm. Subsequent sections will demonstrate how these algorithms can be applied to solve a range of optimization problems.
+
+
+## Algorithms
+
+The metaheuristic algorithms to be included in this book are:
+
+- GA: Genetic Algorithm
+- SA: Simulated Annealing
+- TS: Tabu Search
+- LNS: Large Neighborhood Search
+- PSO: Particle Swarm Optimization
+- ACO: Ant Colony Optimization
+
+## Problems
+
+We will use the aforementioned metaheuristic algorithms to solve various optimization problems:
+
+- GAP: Generalized Assignment Problem
+- VRP: Vehicle Routing Problem
+
+
+## Overview
+
+Not every algorithm will be applied to a problem; the checkmark in the table below signifies which algorithms are used to address specific problems.
+
+|              | GA   | SA   |  TS  |
+|--------------|------|------|------|
+| GAP          | <span>&#10003;</span>  | <span>&#10003;</span>  | <span>&#10003;</span>   |
+| VRP          | | | |
+
 
 
