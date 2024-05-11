@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -302,6 +336,220 @@ window.Quarto = {
 </section>
 <section id="benchmarking-problems" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="benchmarking-problems"><span class="header-section-number">5.2</span> Benchmarking Problems</h2>
+<p>There are benchmarking problems available <a href="http://people.brunel.ac.uk/~mastjjb/jeb/orlib/gapinfo.html">here</a>. <a href="#lst-gap-inst" class="quarto-xref">Listing&nbsp;<span>5.1</span></a> shows one of the instance file with five instances in it.</p>
+<div id="lst-gap-inst" class="txt listing quarto-float" data-filename="gap1.txt">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-gap-inst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;5.1: GAP instance
+</figcaption>
+<div aria-describedby="lst-gap-inst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>gap1.txt</strong></pre>
+</div>
+<div class="sourceCode" id="lst-gap-inst" data-filename="gap1.txt"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="lst-gap-inst-1"><a href="#lst-gap-inst-1" aria-hidden="true" tabindex="-1"></a> 5</span>
+<span id="lst-gap-inst-2"><a href="#lst-gap-inst-2" aria-hidden="true" tabindex="-1"></a> 5 15</span>
+<span id="lst-gap-inst-3"><a href="#lst-gap-inst-3" aria-hidden="true" tabindex="-1"></a> 17 21 22 18 24 15 20 18 19 18 16 22 24 24 16</span>
+<span id="lst-gap-inst-4"><a href="#lst-gap-inst-4" aria-hidden="true" tabindex="-1"></a> 23 16 21 16 17 16 19 25 18 21 17 15 25 17 24</span>
+<span id="lst-gap-inst-5"><a href="#lst-gap-inst-5" aria-hidden="true" tabindex="-1"></a> 16 20 16 25 24 16 17 19 19 18 20 16 17 21 24</span>
+<span id="lst-gap-inst-6"><a href="#lst-gap-inst-6" aria-hidden="true" tabindex="-1"></a> 19 19 22 22 20 16 19 17 21 19 25 23 25 25 25</span>
+<span id="lst-gap-inst-7"><a href="#lst-gap-inst-7" aria-hidden="true" tabindex="-1"></a> 18 19 15 15 21 25 16 16 23 15 22 17 19 22 24</span>
+<span id="lst-gap-inst-8"><a href="#lst-gap-inst-8" aria-hidden="true" tabindex="-1"></a> 8 15 14 23 8 16 8 25 9 17 25 15 10 8 24</span>
+<span id="lst-gap-inst-9"><a href="#lst-gap-inst-9" aria-hidden="true" tabindex="-1"></a> 15 7 23 22 11 11 12 10 17 16 7 16 10 18 22</span>
+<span id="lst-gap-inst-10"><a href="#lst-gap-inst-10" aria-hidden="true" tabindex="-1"></a> 21 20 6 22 24 10 24 9 21 14 11 14 11 19 16</span>
+<span id="lst-gap-inst-11"><a href="#lst-gap-inst-11" aria-hidden="true" tabindex="-1"></a> 20 11 8 14 9 5 6 19 19 7 6 6 13 9 18</span>
+<span id="lst-gap-inst-12"><a href="#lst-gap-inst-12" aria-hidden="true" tabindex="-1"></a> 8 13 13 13 10 20 25 16 16 17 10 10 5 12 23</span>
+<span id="lst-gap-inst-13"><a href="#lst-gap-inst-13" aria-hidden="true" tabindex="-1"></a> 36 34 38 27 33</span>
+<span id="lst-gap-inst-14"><a href="#lst-gap-inst-14" aria-hidden="true" tabindex="-1"></a> 5 15</span>
+<span id="lst-gap-inst-15"><a href="#lst-gap-inst-15" aria-hidden="true" tabindex="-1"></a> 19 23 24 20 20 25 16 21 24 15 17 17 20 20 20</span>
+<span id="lst-gap-inst-16"><a href="#lst-gap-inst-16" aria-hidden="true" tabindex="-1"></a> 25 24 16 21 19 17 17 19 23 21 21 23 20 15 16</span>
+<span id="lst-gap-inst-17"><a href="#lst-gap-inst-17" aria-hidden="true" tabindex="-1"></a> 16 21 25 22 24 24 16 17 15 18 15 17 18 24 18</span>
+<span id="lst-gap-inst-18"><a href="#lst-gap-inst-18" aria-hidden="true" tabindex="-1"></a> 25 24 18 19 15 18 20 22 23 18 16 19 17 15 22</span>
+<span id="lst-gap-inst-19"><a href="#lst-gap-inst-19" aria-hidden="true" tabindex="-1"></a> 25 19 21 22 20 15 20 19 18 18 17 23 17 25 25</span>
+<span id="lst-gap-inst-20"><a href="#lst-gap-inst-20" aria-hidden="true" tabindex="-1"></a> 16 12 8 20 18 10 12 8 14 23 19 14 15 15 24</span>
+<span id="lst-gap-inst-21"><a href="#lst-gap-inst-21" aria-hidden="true" tabindex="-1"></a> 16 18 19 22 13 20 9 7 25 10 20 13 11 15 16</span>
+<span id="lst-gap-inst-22"><a href="#lst-gap-inst-22" aria-hidden="true" tabindex="-1"></a> 6 20 20 5 14 12 6 15 22 18 13 23 23 18 25</span>
+<span id="lst-gap-inst-23"><a href="#lst-gap-inst-23" aria-hidden="true" tabindex="-1"></a> 18 23 25 17 25 13 23 23 13 20 20 23 17 19 24</span>
+<span id="lst-gap-inst-24"><a href="#lst-gap-inst-24" aria-hidden="true" tabindex="-1"></a> 12 17 15 25 22 5 24 19 12 25 23 21 23 19 18</span>
+<span id="lst-gap-inst-25"><a href="#lst-gap-inst-25" aria-hidden="true" tabindex="-1"></a> 36 37 38 48 44</span>
+<span id="lst-gap-inst-26"><a href="#lst-gap-inst-26" aria-hidden="true" tabindex="-1"></a> 5 15</span>
+<span id="lst-gap-inst-27"><a href="#lst-gap-inst-27" aria-hidden="true" tabindex="-1"></a> 22 21 16 17 21 15 17 22 22 25 18 20 24 15 22</span>
+<span id="lst-gap-inst-28"><a href="#lst-gap-inst-28" aria-hidden="true" tabindex="-1"></a> 23 24 19 15 16 21 15 25 16 21 20 19 16 23 20</span>
+<span id="lst-gap-inst-29"><a href="#lst-gap-inst-29" aria-hidden="true" tabindex="-1"></a> 21 20 21 25 21 20 21 19 17 16 25 19 15 15 15</span>
+<span id="lst-gap-inst-30"><a href="#lst-gap-inst-30" aria-hidden="true" tabindex="-1"></a> 17 21 25 25 23 22 20 19 20 25 15 20 21 25 23</span>
+<span id="lst-gap-inst-31"><a href="#lst-gap-inst-31" aria-hidden="true" tabindex="-1"></a> 15 25 23 19 17 17 25 24 24 17 24 19 18 19 16</span>
+<span id="lst-gap-inst-32"><a href="#lst-gap-inst-32" aria-hidden="true" tabindex="-1"></a> 23 10 15 13 17 10 13 6 9 21 20 7 9 25 8</span>
+<span id="lst-gap-inst-33"><a href="#lst-gap-inst-33" aria-hidden="true" tabindex="-1"></a> 17 13 8 23 11 18 7 22 13 5 24 24 15 10 22</span>
+<span id="lst-gap-inst-34"><a href="#lst-gap-inst-34" aria-hidden="true" tabindex="-1"></a> 22 17 22 23 20 11 17 25 23 9 22 20 15 9 25</span>
+<span id="lst-gap-inst-35"><a href="#lst-gap-inst-35" aria-hidden="true" tabindex="-1"></a> 5 19 25 16 15 10 18 9 11 20 7 21 15 8 25</span>
+<span id="lst-gap-inst-36"><a href="#lst-gap-inst-36" aria-hidden="true" tabindex="-1"></a> 22 9 10 23 19 21 17 15 15 17 25 19 10 9 21</span>
+<span id="lst-gap-inst-37"><a href="#lst-gap-inst-37" aria-hidden="true" tabindex="-1"></a> 32 37 44 35 40</span>
+<span id="lst-gap-inst-38"><a href="#lst-gap-inst-38" aria-hidden="true" tabindex="-1"></a> 5 15</span>
+<span id="lst-gap-inst-39"><a href="#lst-gap-inst-39" aria-hidden="true" tabindex="-1"></a> 15 25 20 18 19 21 18 22 24 15 25 17 17 15 22</span>
+<span id="lst-gap-inst-40"><a href="#lst-gap-inst-40" aria-hidden="true" tabindex="-1"></a> 20 18 25 25 16 24 22 24 17 18 23 25 21 25 24</span>
+<span id="lst-gap-inst-41"><a href="#lst-gap-inst-41" aria-hidden="true" tabindex="-1"></a> 25 19 18 18 23 18 15 22 23 16 25 22 22 15 16</span>
+<span id="lst-gap-inst-42"><a href="#lst-gap-inst-42" aria-hidden="true" tabindex="-1"></a> 19 19 23 17 19 19 22 19 23 22 24 22 25 19 16</span>
+<span id="lst-gap-inst-43"><a href="#lst-gap-inst-43" aria-hidden="true" tabindex="-1"></a> 25 24 17 19 25 19 23 19 25 15 19 21 18 19 22</span>
+<span id="lst-gap-inst-44"><a href="#lst-gap-inst-44" aria-hidden="true" tabindex="-1"></a> 20 20 18 9 18 5 16 18 13 24 21 23 15 19 9</span>
+<span id="lst-gap-inst-45"><a href="#lst-gap-inst-45" aria-hidden="true" tabindex="-1"></a> 5 12 18 8 22 19 19 11 7 19 20 17 21 25 5</span>
+<span id="lst-gap-inst-46"><a href="#lst-gap-inst-46" aria-hidden="true" tabindex="-1"></a> 18 8 8 9 20 20 23 13 15 12 6 12 25 25 23</span>
+<span id="lst-gap-inst-47"><a href="#lst-gap-inst-47" aria-hidden="true" tabindex="-1"></a> 17 19 24 9 16 22 10 17 12 17 15 21 16 18 6</span>
+<span id="lst-gap-inst-48"><a href="#lst-gap-inst-48" aria-hidden="true" tabindex="-1"></a> 14 6 20 6 21 5 11 23 20 21 20 18 13 13 21</span>
+<span id="lst-gap-inst-49"><a href="#lst-gap-inst-49" aria-hidden="true" tabindex="-1"></a> 39 36 37 38 37</span>
+<span id="lst-gap-inst-50"><a href="#lst-gap-inst-50" aria-hidden="true" tabindex="-1"></a> 5 15</span>
+<span id="lst-gap-inst-51"><a href="#lst-gap-inst-51" aria-hidden="true" tabindex="-1"></a> 25 25 18 24 20 19 25 24 23 15 18 18 25 15 22</span>
+<span id="lst-gap-inst-52"><a href="#lst-gap-inst-52" aria-hidden="true" tabindex="-1"></a> 25 18 17 22 21 23 20 23 16 19 15 18 16 23 16</span>
+<span id="lst-gap-inst-53"><a href="#lst-gap-inst-53" aria-hidden="true" tabindex="-1"></a> 18 16 19 15 15 18 15 20 19 24 22 20 25 16 21</span>
+<span id="lst-gap-inst-54"><a href="#lst-gap-inst-54" aria-hidden="true" tabindex="-1"></a> 18 21 16 18 17 24 18 23 22 16 17 22 22 18 16</span>
+<span id="lst-gap-inst-55"><a href="#lst-gap-inst-55" aria-hidden="true" tabindex="-1"></a> 17 18 15 21 23 21 24 23 20 22 19 15 22 22 25</span>
+<span id="lst-gap-inst-56"><a href="#lst-gap-inst-56" aria-hidden="true" tabindex="-1"></a> 16 20 9 22 17 19 20 22 20 13 6 20 23 19 7</span>
+<span id="lst-gap-inst-57"><a href="#lst-gap-inst-57" aria-hidden="true" tabindex="-1"></a> 12 22 18 18 6 13 17 17 17 14 20 12 17 14 22</span>
+<span id="lst-gap-inst-58"><a href="#lst-gap-inst-58" aria-hidden="true" tabindex="-1"></a> 5 19 19 14 24 16 7 8 9 22 13 23 24 15 20</span>
+<span id="lst-gap-inst-59"><a href="#lst-gap-inst-59" aria-hidden="true" tabindex="-1"></a> 20 8 6 9 5 17 23 18 14 12 14 17 15 23 21</span>
+<span id="lst-gap-inst-60"><a href="#lst-gap-inst-60" aria-hidden="true" tabindex="-1"></a> 6 6 24 24 8 7 5 25 21 18 12 20 20 7 12</span>
+<span id="lst-gap-inst-61"><a href="#lst-gap-inst-61" aria-hidden="true" tabindex="-1"></a> 40 38 38 35 34</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</figure>
+</div>
+<p><a href="#lst-inst-class" class="quarto-xref">Listing&nbsp;<span>5.2</span></a> contains the Java class to hold the content of an instance. The class contains a couple of key information:</p>
+<ul>
+<li><code>numTasks</code>: the total number of tasks in the instance.</li>
+<li><code>numAgents</code>: the total number of agents available to process the tasks.</li>
+<li><code>costs</code>: a two-dimensional array with <code>costs[i][j]</code> representing the cost of assigning task <code>j</code> to agent <code>i</code>.</li>
+<li><code>resources</code>: a two-dimensional array with <code>resources[i][j]</code> representing the resource requirement of assigning task <code>j</code> to agent <code>i</code>.</li>
+<li><code>capacities</code>: a one-dimensional array with <code>capacities[i]</code> representing the capacity of agent <code>i</code>.</li>
+</ul>
+<div id="lst-inst-class" class="java listing quarto-float" data-filename="GapInstance.java">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-inst-class-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;5.2: GAP instance class
+</figcaption>
+<div aria-describedby="lst-inst-class-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>GapInstance.java</strong></pre>
+</div>
+<div class="sourceCode" id="lst-inst-class" data-filename="GapInstance.java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="lst-inst-class-1"><a href="#lst-inst-class-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">gap</span><span class="op">;</span></span>
+<span id="lst-inst-class-2"><a href="#lst-inst-class-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-inst-class-3"><a href="#lst-inst-class-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">lombok</span><span class="op">.</span><span class="im">AllArgsConstructor</span><span class="op">;</span></span>
+<span id="lst-inst-class-4"><a href="#lst-inst-class-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">lombok</span><span class="op">.</span><span class="im">Builder</span><span class="op">;</span></span>
+<span id="lst-inst-class-5"><a href="#lst-inst-class-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">lombok</span><span class="op">.</span><span class="im">Data</span><span class="op">;</span></span>
+<span id="lst-inst-class-6"><a href="#lst-inst-class-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-inst-class-7"><a href="#lst-inst-class-7" aria-hidden="true" tabindex="-1"></a><span class="at">@Data</span></span>
+<span id="lst-inst-class-8"><a href="#lst-inst-class-8" aria-hidden="true" tabindex="-1"></a><span class="at">@Builder</span></span>
+<span id="lst-inst-class-9"><a href="#lst-inst-class-9" aria-hidden="true" tabindex="-1"></a><span class="at">@AllArgsConstructor</span></span>
+<span id="lst-inst-class-10"><a href="#lst-inst-class-10" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> GapInstance <span class="op">{</span></span>
+<span id="lst-inst-class-11"><a href="#lst-inst-class-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-inst-class-12"><a href="#lst-inst-class-12" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> total number of tasks</span>
+<span id="lst-inst-class-13"><a href="#lst-inst-class-13" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-inst-class-14"><a href="#lst-inst-class-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span> numTasks<span class="op">;</span></span>
+<span id="lst-inst-class-15"><a href="#lst-inst-class-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-inst-class-16"><a href="#lst-inst-class-16" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> total number of agents</span>
+<span id="lst-inst-class-17"><a href="#lst-inst-class-17" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-inst-class-18"><a href="#lst-inst-class-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span> numAgents<span class="op">;</span></span>
+<span id="lst-inst-class-19"><a href="#lst-inst-class-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-inst-class-20"><a href="#lst-inst-class-20" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> costs of assigning tasks to agents</span>
+<span id="lst-inst-class-21"><a href="#lst-inst-class-21" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> dimension<span class="co">:</span> numAgents <span class="co">*</span> numTasks</span>
+<span id="lst-inst-class-22"><a href="#lst-inst-class-22" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-inst-class-23"><a href="#lst-inst-class-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span><span class="op">[][]</span> costs<span class="op">;</span></span>
+<span id="lst-inst-class-24"><a href="#lst-inst-class-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-inst-class-25"><a href="#lst-inst-class-25" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> resource consumption of assigning tasks to agents</span>
+<span id="lst-inst-class-26"><a href="#lst-inst-class-26" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> dimension<span class="co">:</span> numAgents <span class="co">*</span> numTasks</span>
+<span id="lst-inst-class-27"><a href="#lst-inst-class-27" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-inst-class-28"><a href="#lst-inst-class-28" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span><span class="op">[][]</span> resources<span class="op">;</span></span>
+<span id="lst-inst-class-29"><a href="#lst-inst-class-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-inst-class-30"><a href="#lst-inst-class-30" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> agent capacities</span>
+<span id="lst-inst-class-31"><a href="#lst-inst-class-31" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> dimension<span class="co">:</span> numAgents</span>
+<span id="lst-inst-class-32"><a href="#lst-inst-class-32" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-inst-class-33"><a href="#lst-inst-class-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span><span class="op">[]</span> capacities<span class="op">;</span></span>
+<span id="lst-inst-class-34"><a href="#lst-inst-class-34" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</figure>
+</div>
+<p><a href="#lst-gap-inst-reader" class="quarto-xref">Listing&nbsp;<span>5.3</span></a> gives a Java class that reads the instance file and outputs a list of GapInstance objects.</p>
+<div id="lst-gap-inst-reader" class="java listing quarto-float" data-filename="GapInstanceReader.java">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-gap-inst-reader-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;5.3: GAP instance reader class
+</figcaption>
+<div aria-describedby="lst-gap-inst-reader-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>GapInstanceReader.java</strong></pre>
+</div>
+<div class="sourceCode" id="lst-gap-inst-reader" data-filename="GapInstanceReader.java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="lst-gap-inst-reader-1"><a href="#lst-gap-inst-reader-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">gap</span><span class="op">;</span></span>
+<span id="lst-gap-inst-reader-2"><a href="#lst-gap-inst-reader-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-3"><a href="#lst-gap-inst-reader-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">BufferedReader</span><span class="op">;</span></span>
+<span id="lst-gap-inst-reader-4"><a href="#lst-gap-inst-reader-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">FileReader</span><span class="op">;</span></span>
+<span id="lst-gap-inst-reader-5"><a href="#lst-gap-inst-reader-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">IOException</span><span class="op">;</span></span>
+<span id="lst-gap-inst-reader-6"><a href="#lst-gap-inst-reader-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">ArrayList</span><span class="op">;</span></span>
+<span id="lst-gap-inst-reader-7"><a href="#lst-gap-inst-reader-7" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">List</span><span class="op">;</span></span>
+<span id="lst-gap-inst-reader-8"><a href="#lst-gap-inst-reader-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-9"><a href="#lst-gap-inst-reader-9" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> GapInstanceReader <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-10"><a href="#lst-gap-inst-reader-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-11"><a href="#lst-gap-inst-reader-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-inst-reader-12"><a href="#lst-gap-inst-reader-12" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> read instance filePath and return all the contained instances</span>
+<span id="lst-gap-inst-reader-13"><a href="#lst-gap-inst-reader-13" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">filePath</span><span class="co"> </span>instance filename</span>
+<span id="lst-gap-inst-reader-14"><a href="#lst-gap-inst-reader-14" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> <span class="an">@return</span> list of instances</span>
+<span id="lst-gap-inst-reader-15"><a href="#lst-gap-inst-reader-15" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-inst-reader-16"><a href="#lst-gap-inst-reader-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="bu">List</span><span class="op">&lt;</span>GapInstance<span class="op">&gt;</span> <span class="fu">read</span><span class="op">(</span><span class="bu">String</span> filePath<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-17"><a href="#lst-gap-inst-reader-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>GapInstance<span class="op">&gt;</span> instances <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="lst-gap-inst-reader-18"><a href="#lst-gap-inst-reader-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-19"><a href="#lst-gap-inst-reader-19" aria-hidden="true" tabindex="-1"></a>      <span class="bu">BufferedReader</span> reader <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">FileReader</span><span class="op">(</span>filePath<span class="op">));</span></span>
+<span id="lst-gap-inst-reader-20"><a href="#lst-gap-inst-reader-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> numInstances <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>reader<span class="op">.</span><span class="fu">readLine</span><span class="op">().</span><span class="fu">trim</span><span class="op">());</span></span>
+<span id="lst-gap-inst-reader-21"><a href="#lst-gap-inst-reader-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-22"><a href="#lst-gap-inst-reader-22" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> p <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> p <span class="op">&lt;</span> numInstances<span class="op">;</span> p<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-23"><a href="#lst-gap-inst-reader-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span><span class="op">[]</span> mn <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">().</span><span class="fu">trim</span><span class="op">().</span><span class="fu">split</span><span class="op">(</span><span class="st">" "</span><span class="op">);</span></span>
+<span id="lst-gap-inst-reader-24"><a href="#lst-gap-inst-reader-24" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> numAgents <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>mn<span class="op">[</span><span class="dv">0</span><span class="op">]);</span> <span class="co">// Number of agents</span></span>
+<span id="lst-gap-inst-reader-25"><a href="#lst-gap-inst-reader-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> numTasks <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>mn<span class="op">[</span><span class="dv">1</span><span class="op">]);</span> <span class="co">// Number of tasks</span></span>
+<span id="lst-gap-inst-reader-26"><a href="#lst-gap-inst-reader-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-27"><a href="#lst-gap-inst-reader-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Reading costs</span></span>
+<span id="lst-gap-inst-reader-28"><a href="#lst-gap-inst-reader-28" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span><span class="op">[][]</span> costs <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>numAgents<span class="op">][</span>numTasks<span class="op">];</span></span>
+<span id="lst-gap-inst-reader-29"><a href="#lst-gap-inst-reader-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numAgents<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-30"><a href="#lst-gap-inst-reader-30" aria-hidden="true" tabindex="-1"></a>          <span class="bu">String</span><span class="op">[]</span> costsLine <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">().</span><span class="fu">trim</span><span class="op">().</span><span class="fu">split</span><span class="op">(</span><span class="st">" "</span><span class="op">);</span></span>
+<span id="lst-gap-inst-reader-31"><a href="#lst-gap-inst-reader-31" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> numTasks<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-32"><a href="#lst-gap-inst-reader-32" aria-hidden="true" tabindex="-1"></a>            costs<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>costsLine<span class="op">[</span>j<span class="op">]);</span></span>
+<span id="lst-gap-inst-reader-33"><a href="#lst-gap-inst-reader-33" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-34"><a href="#lst-gap-inst-reader-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-35"><a href="#lst-gap-inst-reader-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-36"><a href="#lst-gap-inst-reader-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Reading resources</span></span>
+<span id="lst-gap-inst-reader-37"><a href="#lst-gap-inst-reader-37" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span><span class="op">[][]</span> resources <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>numAgents<span class="op">][</span>numTasks<span class="op">];</span></span>
+<span id="lst-gap-inst-reader-38"><a href="#lst-gap-inst-reader-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numAgents<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-39"><a href="#lst-gap-inst-reader-39" aria-hidden="true" tabindex="-1"></a>          <span class="bu">String</span><span class="op">[]</span> resourcesLine <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">().</span><span class="fu">trim</span><span class="op">().</span><span class="fu">split</span><span class="op">(</span><span class="st">" "</span><span class="op">);</span></span>
+<span id="lst-gap-inst-reader-40"><a href="#lst-gap-inst-reader-40" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> numTasks<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-41"><a href="#lst-gap-inst-reader-41" aria-hidden="true" tabindex="-1"></a>            resources<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>resourcesLine<span class="op">[</span>j<span class="op">]);</span></span>
+<span id="lst-gap-inst-reader-42"><a href="#lst-gap-inst-reader-42" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-43"><a href="#lst-gap-inst-reader-43" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-44"><a href="#lst-gap-inst-reader-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-45"><a href="#lst-gap-inst-reader-45" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Reading resource capacities</span></span>
+<span id="lst-gap-inst-reader-46"><a href="#lst-gap-inst-reader-46" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span><span class="op">[]</span> agentCapacities <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>numAgents<span class="op">];</span></span>
+<span id="lst-gap-inst-reader-47"><a href="#lst-gap-inst-reader-47" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span><span class="op">[]</span> capacitiesLine <span class="op">=</span> reader<span class="op">.</span><span class="fu">readLine</span><span class="op">().</span><span class="fu">trim</span><span class="op">().</span><span class="fu">split</span><span class="op">(</span><span class="st">" "</span><span class="op">);</span></span>
+<span id="lst-gap-inst-reader-48"><a href="#lst-gap-inst-reader-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numAgents<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-49"><a href="#lst-gap-inst-reader-49" aria-hidden="true" tabindex="-1"></a>          agentCapacities<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>capacitiesLine<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="lst-gap-inst-reader-50"><a href="#lst-gap-inst-reader-50" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-51"><a href="#lst-gap-inst-reader-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-inst-reader-52"><a href="#lst-gap-inst-reader-52" aria-hidden="true" tabindex="-1"></a>        GapInstance instance <span class="op">=</span> GapInstance<span class="op">.</span><span class="fu">builder</span><span class="op">()</span></span>
+<span id="lst-gap-inst-reader-53"><a href="#lst-gap-inst-reader-53" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">numTasks</span><span class="op">(</span>numTasks<span class="op">)</span></span>
+<span id="lst-gap-inst-reader-54"><a href="#lst-gap-inst-reader-54" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">numAgents</span><span class="op">(</span>numAgents<span class="op">)</span></span>
+<span id="lst-gap-inst-reader-55"><a href="#lst-gap-inst-reader-55" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">costs</span><span class="op">(</span>costs<span class="op">)</span></span>
+<span id="lst-gap-inst-reader-56"><a href="#lst-gap-inst-reader-56" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">resources</span><span class="op">(</span>resources<span class="op">)</span></span>
+<span id="lst-gap-inst-reader-57"><a href="#lst-gap-inst-reader-57" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">capacities</span><span class="op">(</span>agentCapacities<span class="op">)</span></span>
+<span id="lst-gap-inst-reader-58"><a href="#lst-gap-inst-reader-58" aria-hidden="true" tabindex="-1"></a>          <span class="op">.</span><span class="fu">build</span><span class="op">();</span></span>
+<span id="lst-gap-inst-reader-59"><a href="#lst-gap-inst-reader-59" aria-hidden="true" tabindex="-1"></a>        instances<span class="op">.</span><span class="fu">add</span><span class="op">(</span>instance<span class="op">);</span></span>
+<span id="lst-gap-inst-reader-60"><a href="#lst-gap-inst-reader-60" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-61"><a href="#lst-gap-inst-reader-61" aria-hidden="true" tabindex="-1"></a>      reader<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="lst-gap-inst-reader-62"><a href="#lst-gap-inst-reader-62" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-inst-reader-63"><a href="#lst-gap-inst-reader-63" aria-hidden="true" tabindex="-1"></a>      e<span class="op">.</span><span class="fu">printStackTrace</span><span class="op">();</span></span>
+<span id="lst-gap-inst-reader-64"><a href="#lst-gap-inst-reader-64" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-65"><a href="#lst-gap-inst-reader-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> instances<span class="op">;</span></span>
+<span id="lst-gap-inst-reader-66"><a href="#lst-gap-inst-reader-66" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-inst-reader-67"><a href="#lst-gap-inst-reader-67" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</figure>
+</div>
 
 
 </section>
