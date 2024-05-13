@@ -83,7 +83,39 @@ ul.task-list li input[type="checkbox"] {
         }
     };
 </script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -215,7 +247,13 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#algorithm-workflow" id="toc-algorithm-workflow" class="nav-link active" data-scroll-target="#algorithm-workflow"><span class="header-section-number">3.1</span> Algorithm Workflow</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -239,8 +277,76 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Simulated Annealing (SA) is a probabilistic technique for approximating the global optimum of a given function. Specifically, it is a metaheuristic to approximate global optimization in a large search space. It is often used when the search space is discontinuous and steep valleys and peaks complicate the path to the global maximum or minimum. The algorithm is inspired by the process of annealing in metallurgy, a technique involving heating and controlled cooling of a material to increase the size of its crystals and reduce their defects. The heating process causes the atoms to become disordered and then the slow cooling process attempts to bring the system to a more ordered state.</p>
+<section id="algorithm-workflow" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="algorithm-workflow"><span class="header-section-number">3.1</span> Algorithm Workflow</h2>
+<p>The workflow for the Simulated Annealing algorithm is typically as follows:</p>
+<ol type="1">
+<li>Initialization:</li>
+</ol>
+<ul>
+<li>Start with an initial solution (often generated at random).</li>
+<li>Set an initial temperature that is high enough to allow for exploration of the entire search space.</li>
+<li>Define the cooling schedule, which is the process of lowering the temperature gradually as the algorithm proceeds.</li>
+</ul>
+<ol start="2" type="1">
+<li>Iterative Optimization:</li>
+</ol>
+<ul>
+<li>Select a neighbor: At each step of the algorithm, generate a “neighboring” solution. This is typically a small random variation of the current solution.</li>
+<li>Calculate the change in energy (cost difference): Determine the difference in the objective function values between the current solution and the generated neighbor.</li>
+<li>Decide to accept the new solution: This decision is made using the Metropolis criterion:
+<ul>
+<li>If the new solution improves the objective function (i.e., it has lower energy in minimization problems), it is always accepted.</li>
+<li>If the new solution does not improve the objective function, it may still be accepted with a probability that depends on the difference in the objective function values and the current temperature. The probability is calculated using the formula <span class="math inline">\(P = e^{-\Delta e/t}\)</span> where <span class="math inline">\(\Delta e\)</span> is the change in energy, and <span class="math inline">\(T\)</span> is the current temperature.</li>
+</ul></li>
+</ul>
+<ol start="3" type="1">
+<li>Cooling:</li>
+</ol>
+<ul>
+<li>Reduce the temperature according to the cooling schedule. This reduction in temperature reduces the probability of accepting worse solutions, thus allowing the algorithm to focus more on exploitation rather than exploration as it converges.</li>
+</ul>
+<ol start="4" type="1">
+<li>Termination:</li>
+</ol>
+<ul>
+<li>Repeat the iterative process of exploring neighboring solutions and adjusting temperatures until a stopping criterion is met, such as reaching a minimum temperature, a maximum number of iterations, or a satisfactory solution stability.</li>
+</ul>
+<p><a href="#fig-sa-flowchart" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> shows the workflow of simulated annealing.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-sa-flowchart" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sa-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-sa-flowchart">flowchart TD
+    A[Start] --&gt; B[Initialize Solution]
+    B --&gt; C[Set Initial Temperature]
+    C --&gt; D[Begin Optimization Loop]
+
+    D --&gt; E[Select Neighbor]
+    E --&gt; G[Accept New Solution?]
+    G --&gt;|Yes| H[Update Current Solution]
+    H --&gt; I[Reduce Temperature]
+    I --&gt; J{Check Termination Criteria}
+    J --&gt;|No| D
+    J --&gt;|Yes| K[End]
+
+    G --&gt;|No| I
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sa-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Simulated annealing workflow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

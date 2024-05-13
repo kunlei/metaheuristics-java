@@ -83,6 +83,9 @@ ul.task-list li input[type="checkbox"] {
         }
     };
 </script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -215,7 +218,13 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#algorithmic-workflow" id="toc-algorithmic-workflow" class="nav-link active" data-scroll-target="#algorithmic-workflow"><span class="header-section-number">2.1</span> Algorithmic Workflow</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -239,8 +248,81 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>The Genetic Algorithm (GA) is a search heuristic inspired by Charles Darwin’s theory of natural selection. It mimics the process of natural evolution, leveraging the mechanisms of selection, crossover, and mutation to generate high-quality solutions to optimization and search problems. This approach is particularly well-suited for solving problems where the search space is large and complex.</p>
+<section id="algorithmic-workflow" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="algorithmic-workflow"><span class="header-section-number">2.1</span> Algorithmic Workflow</h2>
+<p>The workflow of a genetic algorithm can be broken down into the following steps:</p>
+<ol type="1">
+<li>Initialization:</li>
+</ol>
+<ul>
+<li>Generate an initial population: This population consists of a number of individuals, and each individual (also known as a chromosome) represents a potential solution to the problem. The individuals are usually represented as strings of bits, characters, or numbers.</li>
+</ul>
+<ol start="2" type="1">
+<li>Evaluation:</li>
+</ol>
+<ul>
+<li>Calculate fitness: Each individual in the population is evaluated based on a fitness function. This function determines how well an individual solves the problem at hand. The fitness score is crucial as it determines the likelihood that an individual will be selected for reproduction.</li>
+</ul>
+<ol start="3" type="1">
+<li>Selection:</li>
+</ol>
+<ul>
+<li>Select parents: Individuals are selected to contribute to the next generation. The selection is often based on their fitness scores—the higher the fitness, the higher the probability of selection. Common selection methods include roulette wheel selection, tournament selection, and rank selection.</li>
+</ul>
+<ol start="4" type="1">
+<li>Crossover (Recombination):</li>
+</ol>
+<ul>
+<li>Generate offspring: Selected individuals (parents) are paired and recombined to produce offspring. Crossover is the genetic algorithm’s primary mechanism for generating new candidate solutions. One common method is the single-point crossover, where a point is chosen on the parent chromosomes, and the genetic material is swapped over this point to create new offspring.</li>
+</ul>
+<ol start="5" type="1">
+<li>Mutation:</li>
+</ol>
+<ul>
+<li>Introduce mutations: With a small probability, mutations are introduced to the offspring. Mutation involves altering one or more gene values in an individual’s chromosome. It serves to maintain genetic diversity within the population and helps to avoid local minima by introducing novel solutions.</li>
+</ul>
+<ol start="6" type="1">
+<li>Replacement:</li>
+</ol>
+<ul>
+<li>Update the population: The offspring are then used to replace some or all of the older generation of individuals. This can be done in various ways, such as replacing the least fit individuals, replacing random individuals, or using a strategy like elitism, where the best individuals are always preserved.</li>
+</ul>
+<ol start="7" type="1">
+<li>Termination:</li>
+</ol>
+<ul>
+<li>Check termination conditions: The algorithm repeats the cycle of evaluation, selection, crossover, and mutation until a termination condition is met. Common termination conditions include reaching a maximum number of generations, achieving a sufficient fitness level, or having the population’s fitness level plateau across several generations.</li>
+</ul>
+<p><a href="#fig-ga-flowchart" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> shows the workflow of the genetic algorithm.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-ga-flowchart" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ga-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-ga-flowchart">flowchart TD
+    A[Start] --&gt; B[Initialize Population]
+    B --&gt; C{Check Stopping Criteria}
+    C --&gt;|Stopping Criteria Not Met| D[Select Parents]
+    D --&gt; E[Perform Crossover]
+    E --&gt; F[Apply Mutation]
+    F --&gt; G[Form New Population]
+    G --&gt; C
+    C --&gt;|Stopping Criteria Met| H[End]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ga-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Genetic algorithm workflow
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

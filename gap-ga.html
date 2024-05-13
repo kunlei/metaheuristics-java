@@ -20,10 +20,44 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -83,6 +117,9 @@ ul.task-list li input[type="checkbox"] {
         }
     };
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -252,9 +289,471 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="implementation-details" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="implementation-details"><span class="header-section-number">6.2</span> Implementation Details</h2>
+<div id="lst-gap-sol" class="java listing quarto-float" data-filename="GapSolution.java">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-gap-sol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;6.1: The solution class
+</figcaption>
+<div aria-describedby="lst-gap-sol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>GapSolution.java</strong></pre>
+</div>
+<div class="sourceCode" id="lst-gap-sol" data-filename="GapSolution.java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="lst-gap-sol-1"><a href="#lst-gap-sol-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">gap</span><span class="op">;</span></span>
+<span id="lst-gap-sol-2"><a href="#lst-gap-sol-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-3"><a href="#lst-gap-sol-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">lombok</span><span class="op">.</span><span class="im">Getter</span><span class="op">;</span></span>
+<span id="lst-gap-sol-4"><a href="#lst-gap-sol-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-5"><a href="#lst-gap-sol-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Arrays</span><span class="op">;</span></span>
+<span id="lst-gap-sol-6"><a href="#lst-gap-sol-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Random</span><span class="op">;</span></span>
+<span id="lst-gap-sol-7"><a href="#lst-gap-sol-7" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">stream</span><span class="op">.</span><span class="im">IntStream</span><span class="op">;</span></span>
+<span id="lst-gap-sol-8"><a href="#lst-gap-sol-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-9"><a href="#lst-gap-sol-9" aria-hidden="true" tabindex="-1"></a><span class="at">@Getter</span></span>
+<span id="lst-gap-sol-10"><a href="#lst-gap-sol-10" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> GapSolution <span class="op">{</span></span>
+<span id="lst-gap-sol-11"><a href="#lst-gap-sol-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-12"><a href="#lst-gap-sol-12" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> reference to the instance to be solved</span>
+<span id="lst-gap-sol-13"><a href="#lst-gap-sol-13" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-14"><a href="#lst-gap-sol-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">final</span> GapInstance instance<span class="op">;</span></span>
+<span id="lst-gap-sol-15"><a href="#lst-gap-sol-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-16"><a href="#lst-gap-sol-16" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> dimension<span class="co">:</span> <span class="co">1</span> <span class="co">*</span> numTasks</span>
+<span id="lst-gap-sol-17"><a href="#lst-gap-sol-17" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> assigned agent index for each task</span>
+<span id="lst-gap-sol-18"><a href="#lst-gap-sol-18" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-19"><a href="#lst-gap-sol-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span><span class="op">[]</span> agentAssignments<span class="op">;</span></span>
+<span id="lst-gap-sol-20"><a href="#lst-gap-sol-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-21"><a href="#lst-gap-sol-21" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> dimension<span class="co">:</span> <span class="co">1</span> <span class="co">*</span> numAgents</span>
+<span id="lst-gap-sol-22"><a href="#lst-gap-sol-22" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> consumed capacity of each agent</span>
+<span id="lst-gap-sol-23"><a href="#lst-gap-sol-23" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-24"><a href="#lst-gap-sol-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span><span class="op">[]</span> consumedCapacities<span class="op">;</span></span>
+<span id="lst-gap-sol-25"><a href="#lst-gap-sol-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-26"><a href="#lst-gap-sol-26" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> total objective value</span>
+<span id="lst-gap-sol-27"><a href="#lst-gap-sol-27" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-28"><a href="#lst-gap-sol-28" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span> objective<span class="op">;</span></span>
+<span id="lst-gap-sol-29"><a href="#lst-gap-sol-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-30"><a href="#lst-gap-sol-30" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> assignment cost<span class="co">,</span> without penalties</span>
+<span id="lst-gap-sol-31"><a href="#lst-gap-sol-31" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-32"><a href="#lst-gap-sol-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span> assignmentCost<span class="op">;</span></span>
+<span id="lst-gap-sol-33"><a href="#lst-gap-sol-33" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-34"><a href="#lst-gap-sol-34" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> capacity violation penalties of all agents</span>
+<span id="lst-gap-sol-35"><a href="#lst-gap-sol-35" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-36"><a href="#lst-gap-sol-36" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">int</span> capacityViolationPenalty<span class="op">;</span></span>
+<span id="lst-gap-sol-37"><a href="#lst-gap-sol-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-38"><a href="#lst-gap-sol-38" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">GapSolution</span><span class="op">(</span>GapInstance instance<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-sol-39"><a href="#lst-gap-sol-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">instance</span> <span class="op">=</span> instance<span class="op">;</span></span>
+<span id="lst-gap-sol-40"><a href="#lst-gap-sol-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span> <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="kw">this</span><span class="op">.</span><span class="fu">instance</span><span class="op">.</span><span class="fu">getNumTasks</span><span class="op">()];</span></span>
+<span id="lst-gap-sol-41"><a href="#lst-gap-sol-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">consumedCapacities</span> <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="kw">this</span><span class="op">.</span><span class="fu">instance</span><span class="op">.</span><span class="fu">getNumAgents</span><span class="op">()];</span></span>
+<span id="lst-gap-sol-42"><a href="#lst-gap-sol-42" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Arrays</span><span class="op">.</span><span class="fu">fill</span><span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="lst-gap-sol-43"><a href="#lst-gap-sol-43" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Arrays</span><span class="op">.</span><span class="fu">fill</span><span class="op">(</span>consumedCapacities<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="lst-gap-sol-44"><a href="#lst-gap-sol-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">objective</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="lst-gap-sol-45"><a href="#lst-gap-sol-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">assignmentCost</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="lst-gap-sol-46"><a href="#lst-gap-sol-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">capacityViolationPenalty</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="lst-gap-sol-47"><a href="#lst-gap-sol-47" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-sol-48"><a href="#lst-gap-sol-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-49"><a href="#lst-gap-sol-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-50"><a href="#lst-gap-sol-50" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> copy constructor</span>
+<span id="lst-gap-sol-51"><a href="#lst-gap-sol-51" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">other</span><span class="co"> </span>the other solution to copy from</span>
+<span id="lst-gap-sol-52"><a href="#lst-gap-sol-52" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-53"><a href="#lst-gap-sol-53" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">GapSolution</span><span class="op">(</span>GapSolution other<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-sol-54"><a href="#lst-gap-sol-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">instance</span> <span class="op">=</span> other<span class="op">.</span><span class="fu">instance</span><span class="op">;</span></span>
+<span id="lst-gap-sol-55"><a href="#lst-gap-sol-55" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span> <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="kw">this</span><span class="op">.</span><span class="fu">instance</span><span class="op">.</span><span class="fu">getNumTasks</span><span class="op">()];</span></span>
+<span id="lst-gap-sol-56"><a href="#lst-gap-sol-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">arraycopy</span><span class="op">(</span>other<span class="op">.</span><span class="fu">agentAssignments</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="lst-gap-sol-57"><a href="#lst-gap-sol-57" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="lst-gap-sol-58"><a href="#lst-gap-sol-58" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">instance</span><span class="op">.</span><span class="fu">getNumTasks</span><span class="op">());</span></span>
+<span id="lst-gap-sol-59"><a href="#lst-gap-sol-59" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">consumedCapacities</span> <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="kw">this</span><span class="op">.</span><span class="fu">instance</span><span class="op">.</span><span class="fu">getNumAgents</span><span class="op">()];</span></span>
+<span id="lst-gap-sol-60"><a href="#lst-gap-sol-60" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">arraycopy</span><span class="op">(</span>other<span class="op">.</span><span class="fu">consumedCapacities</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="lst-gap-sol-61"><a href="#lst-gap-sol-61" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">consumedCapacities</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="lst-gap-sol-62"><a href="#lst-gap-sol-62" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">instance</span><span class="op">.</span><span class="fu">getNumAgents</span><span class="op">());</span></span>
+<span id="lst-gap-sol-63"><a href="#lst-gap-sol-63" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">objective</span> <span class="op">=</span> other<span class="op">.</span><span class="fu">objective</span><span class="op">;</span></span>
+<span id="lst-gap-sol-64"><a href="#lst-gap-sol-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">assignmentCost</span> <span class="op">=</span> other<span class="op">.</span><span class="fu">assignmentCost</span><span class="op">;</span></span>
+<span id="lst-gap-sol-65"><a href="#lst-gap-sol-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">capacityViolationPenalty</span> <span class="op">=</span> other<span class="op">.</span><span class="fu">capacityViolationPenalty</span><span class="op">;</span></span>
+<span id="lst-gap-sol-66"><a href="#lst-gap-sol-66" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-sol-67"><a href="#lst-gap-sol-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-68"><a href="#lst-gap-sol-68" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-69"><a href="#lst-gap-sol-69" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> randomly assign tasks to agents</span>
+<span id="lst-gap-sol-70"><a href="#lst-gap-sol-70" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">random</span><span class="co"> </span>random number generator</span>
+<span id="lst-gap-sol-71"><a href="#lst-gap-sol-71" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-72"><a href="#lst-gap-sol-72" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">initialize</span><span class="op">(</span><span class="bu">Random</span> random<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-sol-73"><a href="#lst-gap-sol-73" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span><span class="op">[][]</span> resources <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">instance</span><span class="op">.</span><span class="fu">getResources</span><span class="op">();</span></span>
+<span id="lst-gap-sol-74"><a href="#lst-gap-sol-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> instance<span class="op">.</span><span class="fu">getNumTasks</span><span class="op">();</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-sol-75"><a href="#lst-gap-sol-75" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> agentIdx <span class="op">=</span> random<span class="op">.</span><span class="fu">nextInt</span><span class="op">(</span>instance<span class="op">.</span><span class="fu">getNumAgents</span><span class="op">());</span></span>
+<span id="lst-gap-sol-76"><a href="#lst-gap-sol-76" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span><span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> agentIdx<span class="op">;</span></span>
+<span id="lst-gap-sol-77"><a href="#lst-gap-sol-77" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">consumedCapacities</span><span class="op">[</span>agentIdx<span class="op">]</span> <span class="op">+=</span> resources<span class="op">[</span>agentIdx<span class="op">][</span>i<span class="op">];</span></span>
+<span id="lst-gap-sol-78"><a href="#lst-gap-sol-78" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-sol-79"><a href="#lst-gap-sol-79" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-sol-80"><a href="#lst-gap-sol-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-81"><a href="#lst-gap-sol-81" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-82"><a href="#lst-gap-sol-82" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> compute objective values</span>
+<span id="lst-gap-sol-83"><a href="#lst-gap-sol-83" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">capacityViolationPenalty</span><span class="co"> </span>penalty factor</span>
+<span id="lst-gap-sol-84"><a href="#lst-gap-sol-84" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-85"><a href="#lst-gap-sol-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">computeObjective</span><span class="op">(</span><span class="dt">int</span> capacityViolationPenalty<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-sol-86"><a href="#lst-gap-sol-86" aria-hidden="true" tabindex="-1"></a>    <span class="co">// compute assignment costs</span></span>
+<span id="lst-gap-sol-87"><a href="#lst-gap-sol-87" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">assignmentCost</span> <span class="op">=</span> IntStream<span class="op">.</span><span class="fu">range</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> instance<span class="op">.</span><span class="fu">getNumTasks</span><span class="op">())</span></span>
+<span id="lst-gap-sol-88"><a href="#lst-gap-sol-88" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">map</span><span class="op">(</span>taskIdx <span class="op">-&gt;</span> instance<span class="op">.</span><span class="fu">getCosts</span><span class="op">()[</span>agentAssignments<span class="op">[</span>taskIdx<span class="op">]][</span>taskIdx<span class="op">])</span></span>
+<span id="lst-gap-sol-89"><a href="#lst-gap-sol-89" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">sum</span><span class="op">();</span></span>
+<span id="lst-gap-sol-90"><a href="#lst-gap-sol-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-91"><a href="#lst-gap-sol-91" aria-hidden="true" tabindex="-1"></a>    <span class="co">// compute capacity violation costs</span></span>
+<span id="lst-gap-sol-92"><a href="#lst-gap-sol-92" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">capacityViolationPenalty</span> <span class="op">=</span> IntStream<span class="op">.</span><span class="fu">range</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> instance<span class="op">.</span><span class="fu">getNumAgents</span><span class="op">())</span></span>
+<span id="lst-gap-sol-93"><a href="#lst-gap-sol-93" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">map</span><span class="op">(</span>agentIdx <span class="op">-&gt;</span> capacityViolationPenalty <span class="op">*</span></span>
+<span id="lst-gap-sol-94"><a href="#lst-gap-sol-94" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="fu">consumedCapacities</span><span class="op">[</span>agentIdx<span class="op">]</span> <span class="op">-</span> instance<span class="op">.</span><span class="fu">getCapacities</span><span class="op">()[</span>agentIdx<span class="op">]))</span></span>
+<span id="lst-gap-sol-95"><a href="#lst-gap-sol-95" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">sum</span><span class="op">();</span></span>
+<span id="lst-gap-sol-96"><a href="#lst-gap-sol-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-97"><a href="#lst-gap-sol-97" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">objective</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">assignmentCost</span> <span class="op">+</span> <span class="kw">this</span><span class="op">.</span><span class="fu">capacityViolationPenalty</span><span class="op">;</span></span>
+<span id="lst-gap-sol-98"><a href="#lst-gap-sol-98" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-sol-99"><a href="#lst-gap-sol-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-100"><a href="#lst-gap-sol-100" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getAssignedAgent</span><span class="op">(</span><span class="dt">int</span> taskIdx<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-sol-101"><a href="#lst-gap-sol-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span><span class="op">[</span>taskIdx<span class="op">];</span></span>
+<span id="lst-gap-sol-102"><a href="#lst-gap-sol-102" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-sol-103"><a href="#lst-gap-sol-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-sol-104"><a href="#lst-gap-sol-104" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-sol-105"><a href="#lst-gap-sol-105" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> assign agent to task</span>
+<span id="lst-gap-sol-106"><a href="#lst-gap-sol-106" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">taskIdx</span><span class="co"> </span>the task to be assigned</span>
+<span id="lst-gap-sol-107"><a href="#lst-gap-sol-107" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> <span class="an">@param</span><span class="co"> </span><span class="an">agentIdx</span><span class="co"> </span>the agent index</span>
+<span id="lst-gap-sol-108"><a href="#lst-gap-sol-108" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-sol-109"><a href="#lst-gap-sol-109" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setAssignedAgent</span><span class="op">(</span><span class="dt">int</span> taskIdx<span class="op">,</span> <span class="dt">int</span> agentIdx<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-sol-110"><a href="#lst-gap-sol-110" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> currAgentIdx <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span><span class="op">[</span>taskIdx<span class="op">];</span></span>
+<span id="lst-gap-sol-111"><a href="#lst-gap-sol-111" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">agentAssignments</span><span class="op">[</span>taskIdx<span class="op">]</span> <span class="op">=</span> agentIdx<span class="op">;</span></span>
+<span id="lst-gap-sol-112"><a href="#lst-gap-sol-112" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">consumedCapacities</span><span class="op">[</span>currAgentIdx<span class="op">]</span> <span class="op">-=</span> instance<span class="op">.</span><span class="fu">getResources</span><span class="op">()[</span>currAgentIdx<span class="op">][</span>taskIdx<span class="op">];</span></span>
+<span id="lst-gap-sol-113"><a href="#lst-gap-sol-113" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">consumedCapacities</span><span class="op">[</span>agentIdx<span class="op">]</span> <span class="op">+=</span> instance<span class="op">.</span><span class="fu">getResources</span><span class="op">()[</span>agentIdx<span class="op">][</span>taskIdx<span class="op">];</span></span>
+<span id="lst-gap-sol-114"><a href="#lst-gap-sol-114" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-sol-115"><a href="#lst-gap-sol-115" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</figure>
+</div>
+<div id="lst-gap-ga" class="java listing quarto-float" data-filename="GapGeneticAlgo.java">
+<figure class="quarto-float quarto-float-lst figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-lst" id="lst-gap-ga-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Listing&nbsp;6.2: Genetic algorithm implementation
+</figcaption>
+<div aria-describedby="lst-gap-ga-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>GapGeneticAlgo.java</strong></pre>
+</div>
+<div class="sourceCode" id="lst-gap-ga" data-filename="GapGeneticAlgo.java"><pre class="sourceCode java code-with-copy"><code class="sourceCode java"><span id="lst-gap-ga-1"><a href="#lst-gap-ga-1" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span><span class="im"> com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">gap</span><span class="op">.</span><span class="im">ga</span><span class="op">;</span></span>
+<span id="lst-gap-ga-2"><a href="#lst-gap-ga-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-3"><a href="#lst-gap-ga-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">gap</span><span class="op">.</span><span class="im">GapInstance</span><span class="op">;</span></span>
+<span id="lst-gap-ga-4"><a href="#lst-gap-ga-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">gap</span><span class="op">.</span><span class="im">GapInstanceReader</span><span class="op">;</span></span>
+<span id="lst-gap-ga-5"><a href="#lst-gap-ga-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">gap</span><span class="op">.</span><span class="im">GapSolution</span><span class="op">;</span></span>
+<span id="lst-gap-ga-6"><a href="#lst-gap-ga-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">utils</span><span class="op">.</span><span class="im">PerfRecord</span><span class="op">;</span></span>
+<span id="lst-gap-ga-7"><a href="#lst-gap-ga-7" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">com</span><span class="op">.</span><span class="im">voyager</span><span class="op">.</span><span class="im">opt</span><span class="op">.</span><span class="im">metaheuristics</span><span class="op">.</span><span class="im">utils</span><span class="op">.</span><span class="im">PerfRecordsWriter</span><span class="op">;</span></span>
+<span id="lst-gap-ga-8"><a href="#lst-gap-ga-8" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">lombok</span><span class="op">.</span><span class="im">Getter</span><span class="op">;</span></span>
+<span id="lst-gap-ga-9"><a href="#lst-gap-ga-9" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">lombok</span><span class="op">.</span><span class="im">Setter</span><span class="op">;</span></span>
+<span id="lst-gap-ga-10"><a href="#lst-gap-ga-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-11"><a href="#lst-gap-ga-11" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.</span><span class="im">File</span><span class="op">;</span></span>
+<span id="lst-gap-ga-12"><a href="#lst-gap-ga-12" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">ArrayList</span><span class="op">;</span></span>
+<span id="lst-gap-ga-13"><a href="#lst-gap-ga-13" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Comparator</span><span class="op">;</span></span>
+<span id="lst-gap-ga-14"><a href="#lst-gap-ga-14" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">List</span><span class="op">;</span></span>
+<span id="lst-gap-ga-15"><a href="#lst-gap-ga-15" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">util</span><span class="op">.</span><span class="im">Random</span><span class="op">;</span></span>
+<span id="lst-gap-ga-16"><a href="#lst-gap-ga-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-17"><a href="#lst-gap-ga-17" aria-hidden="true" tabindex="-1"></a><span class="at">@Getter</span></span>
+<span id="lst-gap-ga-18"><a href="#lst-gap-ga-18" aria-hidden="true" tabindex="-1"></a><span class="at">@Setter</span></span>
+<span id="lst-gap-ga-19"><a href="#lst-gap-ga-19" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> GapGeneticAlgo <span class="op">{</span></span>
+<span id="lst-gap-ga-20"><a href="#lst-gap-ga-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">int</span> MAX_GENERATIONS <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="lst-gap-ga-21"><a href="#lst-gap-ga-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">int</span> POPULATION_SIZE <span class="op">=</span> <span class="dv">100</span><span class="op">;</span></span>
+<span id="lst-gap-ga-22"><a href="#lst-gap-ga-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">double</span> MUTATION_RATE <span class="op">=</span> <span class="fl">0.2</span><span class="op">;</span></span>
+<span id="lst-gap-ga-23"><a href="#lst-gap-ga-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">int</span> TOURNAMENT_SIZE <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="lst-gap-ga-24"><a href="#lst-gap-ga-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-25"><a href="#lst-gap-ga-25" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">final</span> GapInstance instance<span class="op">;</span></span>
+<span id="lst-gap-ga-26"><a href="#lst-gap-ga-26" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-27"><a href="#lst-gap-ga-27" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> random number generator</span>
+<span id="lst-gap-ga-28"><a href="#lst-gap-ga-28" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-29"><a href="#lst-gap-ga-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">final</span> <span class="bu">Random</span> random<span class="op">;</span></span>
+<span id="lst-gap-ga-30"><a href="#lst-gap-ga-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-31"><a href="#lst-gap-ga-31" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> best solution</span>
+<span id="lst-gap-ga-32"><a href="#lst-gap-ga-32" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-33"><a href="#lst-gap-ga-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> GapSolution bestSolution<span class="op">;</span></span>
+<span id="lst-gap-ga-34"><a href="#lst-gap-ga-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-35"><a href="#lst-gap-ga-35" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> performance records</span>
+<span id="lst-gap-ga-36"><a href="#lst-gap-ga-36" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-37"><a href="#lst-gap-ga-37" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">final</span> <span class="bu">List</span><span class="op">&lt;</span>PerfRecord<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;&gt;</span> perfRecords<span class="op">;</span></span>
+<span id="lst-gap-ga-38"><a href="#lst-gap-ga-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-39"><a href="#lst-gap-ga-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> capacityViolationPenalty <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="lst-gap-ga-40"><a href="#lst-gap-ga-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-41"><a href="#lst-gap-ga-41" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="fu">GapGeneticAlgo</span><span class="op">(</span>GapInstance instance<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-42"><a href="#lst-gap-ga-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">instance</span> <span class="op">=</span> instance<span class="op">;</span></span>
+<span id="lst-gap-ga-43"><a href="#lst-gap-ga-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">random</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">Random</span><span class="op">(</span><span class="dv">42</span><span class="op">);</span></span>
+<span id="lst-gap-ga-44"><a href="#lst-gap-ga-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">perfRecords</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="lst-gap-ga-45"><a href="#lst-gap-ga-45" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-46"><a href="#lst-gap-ga-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-47"><a href="#lst-gap-ga-47" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-48"><a href="#lst-gap-ga-48" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> main workflow</span>
+<span id="lst-gap-ga-49"><a href="#lst-gap-ga-49" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-50"><a href="#lst-gap-ga-50" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">solve</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-51"><a href="#lst-gap-ga-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Initialize population</span></span>
+<span id="lst-gap-ga-52"><a href="#lst-gap-ga-52" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> population <span class="op">=</span> <span class="fu">initializePopulation</span><span class="op">();</span></span>
+<span id="lst-gap-ga-53"><a href="#lst-gap-ga-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-54"><a href="#lst-gap-ga-54" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Evolution loop</span></span>
+<span id="lst-gap-ga-55"><a href="#lst-gap-ga-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> generation <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> generation <span class="op">&lt;</span> MAX_GENERATIONS<span class="op">;</span> generation<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-56"><a href="#lst-gap-ga-56" aria-hidden="true" tabindex="-1"></a>      <span class="co">// collect and save performance metrics</span></span>
+<span id="lst-gap-ga-57"><a href="#lst-gap-ga-57" aria-hidden="true" tabindex="-1"></a>      PerfRecord<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> perf <span class="op">=</span> <span class="fu">collectPerformanceMetrics</span><span class="op">(</span>population<span class="op">);</span></span>
+<span id="lst-gap-ga-58"><a href="#lst-gap-ga-58" aria-hidden="true" tabindex="-1"></a>      perf<span class="op">.</span><span class="fu">setIteration</span><span class="op">(</span>generation<span class="op">);</span></span>
+<span id="lst-gap-ga-59"><a href="#lst-gap-ga-59" aria-hidden="true" tabindex="-1"></a>      perfRecords<span class="op">.</span><span class="fu">add</span><span class="op">(</span>perf<span class="op">);</span></span>
+<span id="lst-gap-ga-60"><a href="#lst-gap-ga-60" aria-hidden="true" tabindex="-1"></a>      <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>perf<span class="op">.</span><span class="fu">toCommaDelimitedString</span><span class="op">());</span></span>
+<span id="lst-gap-ga-61"><a href="#lst-gap-ga-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-62"><a href="#lst-gap-ga-62" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Crossover</span></span>
+<span id="lst-gap-ga-63"><a href="#lst-gap-ga-63" aria-hidden="true" tabindex="-1"></a>      <span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> offspring <span class="op">=</span> <span class="fu">crossover</span><span class="op">(</span>population<span class="op">);</span></span>
+<span id="lst-gap-ga-64"><a href="#lst-gap-ga-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-65"><a href="#lst-gap-ga-65" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Mutation</span></span>
+<span id="lst-gap-ga-66"><a href="#lst-gap-ga-66" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span><span class="op">(</span>offspring<span class="op">);</span></span>
+<span id="lst-gap-ga-67"><a href="#lst-gap-ga-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-68"><a href="#lst-gap-ga-68" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Replace old population with new population</span></span>
+<span id="lst-gap-ga-69"><a href="#lst-gap-ga-69" aria-hidden="true" tabindex="-1"></a>      population<span class="op">.</span><span class="fu">addAll</span><span class="op">(</span>offspring<span class="op">);</span></span>
+<span id="lst-gap-ga-70"><a href="#lst-gap-ga-70" aria-hidden="true" tabindex="-1"></a>      population<span class="op">.</span><span class="fu">sort</span><span class="op">(</span><span class="bu">Comparator</span><span class="op">.</span><span class="fu">comparingInt</span><span class="op">(</span>GapSolution<span class="op">::</span>getObjective<span class="op">));</span></span>
+<span id="lst-gap-ga-71"><a href="#lst-gap-ga-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-72"><a href="#lst-gap-ga-72" aria-hidden="true" tabindex="-1"></a>      <span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> nextGenPop <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;(</span>POPULATION_SIZE<span class="op">);</span></span>
+<span id="lst-gap-ga-73"><a href="#lst-gap-ga-73" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> POPULATION_SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-74"><a href="#lst-gap-ga-74" aria-hidden="true" tabindex="-1"></a>        nextGenPop<span class="op">.</span><span class="fu">add</span><span class="op">(</span>population<span class="op">.</span><span class="fu">get</span><span class="op">(</span>i<span class="op">));</span></span>
+<span id="lst-gap-ga-75"><a href="#lst-gap-ga-75" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="lst-gap-ga-76"><a href="#lst-gap-ga-76" aria-hidden="true" tabindex="-1"></a>      population <span class="op">=</span> nextGenPop<span class="op">;</span></span>
+<span id="lst-gap-ga-77"><a href="#lst-gap-ga-77" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-ga-78"><a href="#lst-gap-ga-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-79"><a href="#lst-gap-ga-79" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Select the best solution from the final population</span></span>
+<span id="lst-gap-ga-80"><a href="#lst-gap-ga-80" aria-hidden="true" tabindex="-1"></a>    PerfRecord<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> perf <span class="op">=</span> <span class="fu">collectPerformanceMetrics</span><span class="op">(</span>population<span class="op">);</span></span>
+<span id="lst-gap-ga-81"><a href="#lst-gap-ga-81" aria-hidden="true" tabindex="-1"></a>    perf<span class="op">.</span><span class="fu">setIteration</span><span class="op">(</span>MAX_GENERATIONS<span class="op">);</span></span>
+<span id="lst-gap-ga-82"><a href="#lst-gap-ga-82" aria-hidden="true" tabindex="-1"></a>    perfRecords<span class="op">.</span><span class="fu">add</span><span class="op">(</span>perf<span class="op">);</span></span>
+<span id="lst-gap-ga-83"><a href="#lst-gap-ga-83" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-84"><a href="#lst-gap-ga-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-85"><a href="#lst-gap-ga-85" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-86"><a href="#lst-gap-ga-86" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> randomly create a population of solutions</span>
+<span id="lst-gap-ga-87"><a href="#lst-gap-ga-87" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@return</span> new solutions</span>
+<span id="lst-gap-ga-88"><a href="#lst-gap-ga-88" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-89"><a href="#lst-gap-ga-89" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> <span class="fu">initializePopulation</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-90"><a href="#lst-gap-ga-90" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> population <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;(</span>POPULATION_SIZE<span class="op">);</span></span>
+<span id="lst-gap-ga-91"><a href="#lst-gap-ga-91" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> POPULATION_SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-92"><a href="#lst-gap-ga-92" aria-hidden="true" tabindex="-1"></a>      GapSolution solution <span class="op">=</span> <span class="kw">new</span> <span class="fu">GapSolution</span><span class="op">(</span>instance<span class="op">);</span></span>
+<span id="lst-gap-ga-93"><a href="#lst-gap-ga-93" aria-hidden="true" tabindex="-1"></a>      solution<span class="op">.</span><span class="fu">initialize</span><span class="op">(</span>random<span class="op">);</span></span>
+<span id="lst-gap-ga-94"><a href="#lst-gap-ga-94" aria-hidden="true" tabindex="-1"></a>      solution<span class="op">.</span><span class="fu">computeObjective</span><span class="op">(</span>capacityViolationPenalty<span class="op">);</span></span>
+<span id="lst-gap-ga-95"><a href="#lst-gap-ga-95" aria-hidden="true" tabindex="-1"></a>      population<span class="op">.</span><span class="fu">add</span><span class="op">(</span>solution<span class="op">);</span></span>
+<span id="lst-gap-ga-96"><a href="#lst-gap-ga-96" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-ga-97"><a href="#lst-gap-ga-97" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> population<span class="op">;</span></span>
+<span id="lst-gap-ga-98"><a href="#lst-gap-ga-98" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-99"><a href="#lst-gap-ga-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-100"><a href="#lst-gap-ga-100" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-101"><a href="#lst-gap-ga-101" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> identify the best solution from the given population and average objective value</span>
+<span id="lst-gap-ga-102"><a href="#lst-gap-ga-102" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">population</span><span class="co"> </span>input population</span>
+<span id="lst-gap-ga-103"><a href="#lst-gap-ga-103" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> <span class="an">@return</span> performance record</span>
+<span id="lst-gap-ga-104"><a href="#lst-gap-ga-104" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-105"><a href="#lst-gap-ga-105" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> PerfRecord<span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> <span class="fu">collectPerformanceMetrics</span><span class="op">(</span><span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> population<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-106"><a href="#lst-gap-ga-106" aria-hidden="true" tabindex="-1"></a>    GapSolution bestSol <span class="op">=</span> population<span class="op">.</span><span class="fu">stream</span><span class="op">()</span></span>
+<span id="lst-gap-ga-107"><a href="#lst-gap-ga-107" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">sorted</span><span class="op">(</span><span class="bu">Comparator</span><span class="op">.</span><span class="fu">comparingDouble</span><span class="op">(</span>GapSolution<span class="op">::</span>getObjective<span class="op">))</span></span>
+<span id="lst-gap-ga-108"><a href="#lst-gap-ga-108" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">toList</span><span class="op">().</span><span class="fu">getFirst</span><span class="op">();</span></span>
+<span id="lst-gap-ga-109"><a href="#lst-gap-ga-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span><span class="kw">this</span><span class="op">.</span><span class="fu">bestSolution</span> <span class="op">==</span> <span class="kw">null</span> <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="fu">bestSolution</span><span class="op">.</span><span class="fu">getObjective</span><span class="op">()</span> <span class="op">&gt;</span> bestSol<span class="op">.</span><span class="fu">getObjective</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-110"><a href="#lst-gap-ga-110" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">bestSolution</span> <span class="op">=</span> bestSol<span class="op">;</span></span>
+<span id="lst-gap-ga-111"><a href="#lst-gap-ga-111" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-ga-112"><a href="#lst-gap-ga-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-113"><a href="#lst-gap-ga-113" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> avgObj <span class="op">=</span> population<span class="op">.</span><span class="fu">stream</span><span class="op">()</span></span>
+<span id="lst-gap-ga-114"><a href="#lst-gap-ga-114" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">mapToInt</span><span class="op">(</span>GapSolution<span class="op">::</span>getObjective<span class="op">)</span></span>
+<span id="lst-gap-ga-115"><a href="#lst-gap-ga-115" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">average</span><span class="op">()</span></span>
+<span id="lst-gap-ga-116"><a href="#lst-gap-ga-116" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">getAsDouble</span><span class="op">();</span></span>
+<span id="lst-gap-ga-117"><a href="#lst-gap-ga-117" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">new</span> PerfRecord<span class="op">&lt;&gt;(</span><span class="dv">0</span><span class="op">,</span> <span class="op">(</span><span class="dt">int</span><span class="op">)</span> avgObj<span class="op">,</span> bestSolution<span class="op">.</span><span class="fu">getObjective</span><span class="op">());</span></span>
+<span id="lst-gap-ga-118"><a href="#lst-gap-ga-118" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-119"><a href="#lst-gap-ga-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-120"><a href="#lst-gap-ga-120" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-121"><a href="#lst-gap-ga-121" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> select the best solution from multiple candidate solutions</span>
+<span id="lst-gap-ga-122"><a href="#lst-gap-ga-122" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span></span>
+<span id="lst-gap-ga-123"><a href="#lst-gap-ga-123" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">population</span><span class="co"> </span>input solution population</span>
+<span id="lst-gap-ga-124"><a href="#lst-gap-ga-124" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> <span class="an">@return</span> best solution</span>
+<span id="lst-gap-ga-125"><a href="#lst-gap-ga-125" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-126"><a href="#lst-gap-ga-126" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> GapSolution <span class="fu">selectParent</span><span class="op">(</span><span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> population<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-127"><a href="#lst-gap-ga-127" aria-hidden="true" tabindex="-1"></a>    GapSolution champion <span class="op">=</span> population<span class="op">.</span><span class="fu">get</span><span class="op">(</span>random<span class="op">.</span><span class="fu">nextInt</span><span class="op">(</span>POPULATION_SIZE<span class="op">));</span></span>
+<span id="lst-gap-ga-128"><a href="#lst-gap-ga-128" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> TOURNAMENT_SIZE <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-129"><a href="#lst-gap-ga-129" aria-hidden="true" tabindex="-1"></a>      GapSolution challenger <span class="op">=</span> population<span class="op">.</span><span class="fu">get</span><span class="op">(</span>random<span class="op">.</span><span class="fu">nextInt</span><span class="op">(</span>POPULATION_SIZE<span class="op">));</span></span>
+<span id="lst-gap-ga-130"><a href="#lst-gap-ga-130" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(</span>challenger<span class="op">.</span><span class="fu">getObjective</span><span class="op">()</span> <span class="op">&lt;</span> champion<span class="op">.</span><span class="fu">getObjective</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-131"><a href="#lst-gap-ga-131" aria-hidden="true" tabindex="-1"></a>        champion <span class="op">=</span> challenger<span class="op">;</span></span>
+<span id="lst-gap-ga-132"><a href="#lst-gap-ga-132" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="lst-gap-ga-133"><a href="#lst-gap-ga-133" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-ga-134"><a href="#lst-gap-ga-134" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> champion<span class="op">;</span></span>
+<span id="lst-gap-ga-135"><a href="#lst-gap-ga-135" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-136"><a href="#lst-gap-ga-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-137"><a href="#lst-gap-ga-137" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-138"><a href="#lst-gap-ga-138" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> crossover operator that generates a new solution population</span>
+<span id="lst-gap-ga-139"><a href="#lst-gap-ga-139" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span></span>
+<span id="lst-gap-ga-140"><a href="#lst-gap-ga-140" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">parents</span><span class="co"> </span>parent solutions</span>
+<span id="lst-gap-ga-141"><a href="#lst-gap-ga-141" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> <span class="an">@return</span> child solutions</span>
+<span id="lst-gap-ga-142"><a href="#lst-gap-ga-142" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-143"><a href="#lst-gap-ga-143" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> <span class="fu">crossover</span><span class="op">(</span><span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> parents<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-144"><a href="#lst-gap-ga-144" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Here, we can use different crossover techniques such as one-point crossover or uniform crossover</span></span>
+<span id="lst-gap-ga-145"><a href="#lst-gap-ga-145" aria-hidden="true" tabindex="-1"></a>    <span class="co">// For simplicity, let's use one-point crossover</span></span>
+<span id="lst-gap-ga-146"><a href="#lst-gap-ga-146" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> offspring <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;(</span>POPULATION_SIZE<span class="op">);</span></span>
+<span id="lst-gap-ga-147"><a href="#lst-gap-ga-147" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> POPULATION_SIZE<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-148"><a href="#lst-gap-ga-148" aria-hidden="true" tabindex="-1"></a>      GapSolution parent1 <span class="op">=</span> <span class="fu">selectParent</span><span class="op">(</span>parents<span class="op">);</span></span>
+<span id="lst-gap-ga-149"><a href="#lst-gap-ga-149" aria-hidden="true" tabindex="-1"></a>      GapSolution parent2 <span class="op">=</span> <span class="fu">selectParent</span><span class="op">(</span>parents<span class="op">);</span></span>
+<span id="lst-gap-ga-150"><a href="#lst-gap-ga-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-151"><a href="#lst-gap-ga-151" aria-hidden="true" tabindex="-1"></a>      <span class="dt">int</span> crossoverPoint <span class="op">=</span> random<span class="op">.</span><span class="fu">nextInt</span><span class="op">(</span>instance<span class="op">.</span><span class="fu">getNumTasks</span><span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">)</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// Ensure crossoverPoint is not 0</span></span>
+<span id="lst-gap-ga-152"><a href="#lst-gap-ga-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-153"><a href="#lst-gap-ga-153" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Create offspring by swapping genes between parents</span></span>
+<span id="lst-gap-ga-154"><a href="#lst-gap-ga-154" aria-hidden="true" tabindex="-1"></a>      GapSolution offspring1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">GapSolution</span><span class="op">(</span>parent1<span class="op">);</span></span>
+<span id="lst-gap-ga-155"><a href="#lst-gap-ga-155" aria-hidden="true" tabindex="-1"></a>      GapSolution offspring2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">GapSolution</span><span class="op">(</span>parent2<span class="op">);</span></span>
+<span id="lst-gap-ga-156"><a href="#lst-gap-ga-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-157"><a href="#lst-gap-ga-157" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> crossoverPoint<span class="op">;</span> j <span class="op">&lt;</span> instance<span class="op">.</span><span class="fu">getNumTasks</span><span class="op">();</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-158"><a href="#lst-gap-ga-158" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> temp <span class="op">=</span> offspring1<span class="op">.</span><span class="fu">getAssignedAgent</span><span class="op">(</span>j<span class="op">);</span></span>
+<span id="lst-gap-ga-159"><a href="#lst-gap-ga-159" aria-hidden="true" tabindex="-1"></a>        offspring1<span class="op">.</span><span class="fu">setAssignedAgent</span><span class="op">(</span>j<span class="op">,</span> offspring2<span class="op">.</span><span class="fu">getAssignedAgent</span><span class="op">(</span>j<span class="op">));</span></span>
+<span id="lst-gap-ga-160"><a href="#lst-gap-ga-160" aria-hidden="true" tabindex="-1"></a>        offspring2<span class="op">.</span><span class="fu">setAssignedAgent</span><span class="op">(</span>j<span class="op">,</span> temp<span class="op">);</span></span>
+<span id="lst-gap-ga-161"><a href="#lst-gap-ga-161" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="lst-gap-ga-162"><a href="#lst-gap-ga-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-163"><a href="#lst-gap-ga-163" aria-hidden="true" tabindex="-1"></a>      offspring1<span class="op">.</span><span class="fu">computeObjective</span><span class="op">(</span>capacityViolationPenalty<span class="op">);</span></span>
+<span id="lst-gap-ga-164"><a href="#lst-gap-ga-164" aria-hidden="true" tabindex="-1"></a>      offspring2<span class="op">.</span><span class="fu">computeObjective</span><span class="op">(</span>capacityViolationPenalty<span class="op">);</span></span>
+<span id="lst-gap-ga-165"><a href="#lst-gap-ga-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-166"><a href="#lst-gap-ga-166" aria-hidden="true" tabindex="-1"></a>      offspring<span class="op">.</span><span class="fu">add</span><span class="op">(</span>offspring1<span class="op">);</span></span>
+<span id="lst-gap-ga-167"><a href="#lst-gap-ga-167" aria-hidden="true" tabindex="-1"></a>      offspring<span class="op">.</span><span class="fu">add</span><span class="op">(</span>offspring2<span class="op">);</span></span>
+<span id="lst-gap-ga-168"><a href="#lst-gap-ga-168" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-ga-169"><a href="#lst-gap-ga-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-170"><a href="#lst-gap-ga-170" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> offspring<span class="op">;</span></span>
+<span id="lst-gap-ga-171"><a href="#lst-gap-ga-171" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-172"><a href="#lst-gap-ga-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-173"><a href="#lst-gap-ga-173" aria-hidden="true" tabindex="-1"></a>  <span class="co">/**</span></span>
+<span id="lst-gap-ga-174"><a href="#lst-gap-ga-174" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span> mutation introduces minor changes to the given solutions</span>
+<span id="lst-gap-ga-175"><a href="#lst-gap-ga-175" aria-hidden="true" tabindex="-1"></a>   <span class="co">*</span></span>
+<span id="lst-gap-ga-176"><a href="#lst-gap-ga-176" aria-hidden="true" tabindex="-1"></a><span class="co">   * </span><span class="an">@param</span><span class="co"> </span><span class="an">population</span><span class="co"> </span>solutions to perform mutations on</span>
+<span id="lst-gap-ga-177"><a href="#lst-gap-ga-177" aria-hidden="true" tabindex="-1"></a>   <span class="co">*/</span></span>
+<span id="lst-gap-ga-178"><a href="#lst-gap-ga-178" aria-hidden="true" tabindex="-1"></a>  <span class="kw">private</span> <span class="dt">void</span> <span class="fu">mutate</span><span class="op">(</span><span class="bu">List</span><span class="op">&lt;</span>GapSolution<span class="op">&gt;</span> population<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-179"><a href="#lst-gap-ga-179" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>GapSolution solution <span class="op">:</span> population<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-180"><a href="#lst-gap-ga-180" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="op">(</span>random<span class="op">.</span><span class="fu">nextDouble</span><span class="op">()</span> <span class="op">&lt;</span> MUTATION_RATE<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-181"><a href="#lst-gap-ga-181" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> taskIdx <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> taskIdx <span class="op">&lt;</span> instance<span class="op">.</span><span class="fu">getNumTasks</span><span class="op">();</span> taskIdx<span class="op">++)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-182"><a href="#lst-gap-ga-182" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> <span class="op">(</span>random<span class="op">.</span><span class="fu">nextDouble</span><span class="op">()</span> <span class="op">&lt;</span> MUTATION_RATE <span class="op">/</span> <span class="fl">2.0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-183"><a href="#lst-gap-ga-183" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> newAgentIdx <span class="op">=</span> random<span class="op">.</span><span class="fu">nextInt</span><span class="op">(</span>instance<span class="op">.</span><span class="fu">getNumAgents</span><span class="op">());</span></span>
+<span id="lst-gap-ga-184"><a href="#lst-gap-ga-184" aria-hidden="true" tabindex="-1"></a>            solution<span class="op">.</span><span class="fu">setAssignedAgent</span><span class="op">(</span>taskIdx<span class="op">,</span> newAgentIdx<span class="op">);</span></span>
+<span id="lst-gap-ga-185"><a href="#lst-gap-ga-185" aria-hidden="true" tabindex="-1"></a>          <span class="op">}</span></span>
+<span id="lst-gap-ga-186"><a href="#lst-gap-ga-186" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="lst-gap-ga-187"><a href="#lst-gap-ga-187" aria-hidden="true" tabindex="-1"></a>        solution<span class="op">.</span><span class="fu">computeObjective</span><span class="op">(</span>capacityViolationPenalty<span class="op">);</span></span>
+<span id="lst-gap-ga-188"><a href="#lst-gap-ga-188" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="lst-gap-ga-189"><a href="#lst-gap-ga-189" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="lst-gap-ga-190"><a href="#lst-gap-ga-190" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-191"><a href="#lst-gap-ga-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-192"><a href="#lst-gap-ga-192" aria-hidden="true" tabindex="-1"></a>  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="lst-gap-ga-193"><a href="#lst-gap-ga-193" aria-hidden="true" tabindex="-1"></a>    <span class="bu">File</span> file <span class="op">=</span> <span class="kw">new</span> <span class="bu">File</span><span class="op">(</span><span class="st">"src/main/resources/data/gap/gap1.txt"</span><span class="op">);</span></span>
+<span id="lst-gap-ga-194"><a href="#lst-gap-ga-194" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> filePath <span class="op">=</span> file<span class="op">.</span><span class="fu">getAbsolutePath</span><span class="op">();</span></span>
+<span id="lst-gap-ga-195"><a href="#lst-gap-ga-195" aria-hidden="true" tabindex="-1"></a>    <span class="bu">String</span> outputFilename <span class="op">=</span> <span class="st">"/Users/klian/dev/books/metaheuristics-java/data/gap/perf_records_ga.csv"</span><span class="op">;</span></span>
+<span id="lst-gap-ga-196"><a href="#lst-gap-ga-196" aria-hidden="true" tabindex="-1"></a>    <span class="bu">List</span><span class="op">&lt;</span>GapInstance<span class="op">&gt;</span> instances <span class="op">=</span> GapInstanceReader<span class="op">.</span><span class="fu">read</span><span class="op">(</span>filePath<span class="op">);</span></span>
+<span id="lst-gap-ga-197"><a href="#lst-gap-ga-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-198"><a href="#lst-gap-ga-198" aria-hidden="true" tabindex="-1"></a>    GapInstance instance <span class="op">=</span> instances<span class="op">.</span><span class="fu">get</span><span class="op">(</span><span class="dv">4</span><span class="op">);</span></span>
+<span id="lst-gap-ga-199"><a href="#lst-gap-ga-199" aria-hidden="true" tabindex="-1"></a>    GapGeneticAlgo geneticAlgo <span class="op">=</span> <span class="kw">new</span> <span class="fu">GapGeneticAlgo</span><span class="op">(</span>instance<span class="op">);</span></span>
+<span id="lst-gap-ga-200"><a href="#lst-gap-ga-200" aria-hidden="true" tabindex="-1"></a>    geneticAlgo<span class="op">.</span><span class="fu">solve</span><span class="op">();</span></span>
+<span id="lst-gap-ga-201"><a href="#lst-gap-ga-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="lst-gap-ga-202"><a href="#lst-gap-ga-202" aria-hidden="true" tabindex="-1"></a>    <span class="co">// save performance records</span></span>
+<span id="lst-gap-ga-203"><a href="#lst-gap-ga-203" aria-hidden="true" tabindex="-1"></a>    PerfRecordsWriter<span class="op">.</span><span class="fu">write</span><span class="op">(</span>outputFilename<span class="op">,</span> geneticAlgo<span class="op">.</span><span class="fu">getPerfRecords</span><span class="op">());</span></span>
+<span id="lst-gap-ga-204"><a href="#lst-gap-ga-204" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="lst-gap-ga-205"><a href="#lst-gap-ga-205" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</figure>
+</div>
 </section>
 <section id="performance-illustration" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="performance-illustration"><span class="header-section-number">6.3</span> Performance Illustration</h2>
+<div id="cell-8" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"/Users/klian/dev/books/metaheuristics-java/data/gap/perf_records_ga.csv"</span>, names<span class="op">=</span>[<span class="st">'iteration'</span>, <span class="st">'curr_obj'</span>, <span class="st">'best_obj'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">iteration</th>
+<th data-quarto-table-cell-role="th">curr_obj</th>
+<th data-quarto-table-cell-role="th">best_obj</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>76088</td>
+<td>37289</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>46838</td>
+<td>17288</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>32506</td>
+<td>11302</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>21643</td>
+<td>8301</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>13734</td>
+<td>8301</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">996</td>
+<td>996</td>
+<td>255</td>
+<td>255</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">997</td>
+<td>997</td>
+<td>255</td>
+<td>255</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">998</td>
+<td>998</td>
+<td>255</td>
+<td>255</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">999</td>
+<td>999</td>
+<td>255</td>
+<td>255</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1000</td>
+<td>1000</td>
+<td>255</td>
+<td>255</td>
+</tr>
+</tbody>
+</table>
+
+<p>1001 rows × 3 columns</p>
+</div>
+</div>
+</div>
+</div>
+<div id="cell-10" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ax.plot(df[<span class="st">'iteration'</span>], df[<span class="st">'curr_obj'</span>], <span class="st">'g--'</span>, label<span class="op">=</span><span class="st">"current objective"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ax.plot(df[<span class="st">'iteration'</span>], df[<span class="st">'best_obj'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">"best objective"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlim([<span class="dv">0</span>, <span class="dv">100</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylim([<span class="dv">0</span>, <span class="dv">80000</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="gap-ga_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
